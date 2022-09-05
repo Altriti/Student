@@ -1,16 +1,23 @@
-import React from "react";
-import { Button, Card, Icon, Image } from "semantic-ui-react";
-import { Student } from "../../../app/models/student";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Button, Card, Image } from "semantic-ui-react";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { useStore } from "../../../app/stores/store";
 
 
-interface Props {
-    student: Student;
-    cancelSelectStudent: () => void;
-    openForm: (id: string) => void;
-}
+export default observer(function StudentDetails() {
 
+    const { studentStore } = useStore();
+    const { selectedStudent: student, loadStudent, loadingInitial } = studentStore;
+    const { id } = useParams<{ id: string }>();
 
-export default function StudentDetails({ student, cancelSelectStudent,openForm }: Props) {
+    useEffect(() => {
+        if (id) loadStudent(id);
+    }, [id, loadStudent]);
+
+    if (loadingInitial || !student) return <LoadingComponent />;
+
     return (
         <Card fluid>
             <Image src={`/assets/categoryImages/culture.jpg`} />
@@ -39,10 +46,10 @@ export default function StudentDetails({ student, cancelSelectStudent,openForm }
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths='2'>
-                    <Button basic onClick={() => openForm(student.id)} color="blue" content='Edit' />
-                    <Button basic onClick={cancelSelectStudent} color="grey" content='Cancel' />
+                    <Button as={Link} to={`/edit/${student.id}`} basic color="blue" content='Edit' />
+                    <Button as={Link} to='/students' basic color="grey" content='Cancel' />
                 </Button.Group>
             </Card.Content>
         </Card>
     )
-}
+}) 

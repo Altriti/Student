@@ -1,96 +1,40 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, Header, List } from 'semantic-ui-react';
-import { Student } from '../models/student';
+import { Fragment } from 'react';
+import { Container } from 'semantic-ui-react';
 import NavBar from './NavBar';
 import StudentDashboard from '../../features/students/dashboard/StudentDashboard';
-import { v4 as uuid } from 'uuid';
-import agent from '../api/agent';
-import LoadingComponent from './LoadingComponent';
+import { observer } from 'mobx-react-lite';
+import { Route, Switch, useLocation } from 'react-router-dom';
+import HomePage from '../../features/home/HomePage';
+import StudentForm from '../../features/students/form/StudentForm';
+import StudentDetails from '../../features/students/details/StudentDetails';
+import TestErrors from '../../features/errors/TestError';
+import { ToastContainer } from 'react-toastify';
+import NotFound from '../../features/errors/NotFound';
 
 function App() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [selectedStudent, setSelectedStudent] = useState<Student | undefined>(undefined);
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    agent.Students.list().then(response => {
-      setStudents(response);
-      setLoading(false);
-    })
-  }, [])
-
-
-  function handleSelectStudent(id: string) {
-    setSelectedStudent(students.find(x => x.id === id))
-  }
-
-  function handleCancelSelectStudent() {
-    setSelectedStudent(undefined);
-  }
-
-  function handleFormOpen(id?: string) {
-    id ? handleSelectStudent(id) : handleCancelSelectStudent();
-    setEditMode(true);
-  }
-
-  function handleFormClose() {
-    setEditMode(false)
-  }
-
-  function handleEditCreateStudent(student: Student) {
-    setSubmitting(true);
-    if (student.id) {
-      agent.Students.update(student).then(() => {
-        setStudents([...students.filter(x => x.id !== student.id), student])
-        setSelectedStudent(student);
-        setEditMode(false);
-        setSubmitting(false);
-      })
-    } else {
-      student.id = uuid();
-      agent.Students.create(student).then(() => {
-        setStudents([...students, student])
-        setSelectedStudent(student);
-        setEditMode(false);
-        setSubmitting(false);
-      })
-    }
-  }
-
-  function handleDeleteStudent(id: string) {
-    setSubmitting(true);
-    agent.Students.delete(id).then(() => {
-      setStudents([...students.filter(x => x.id !== id)]);
-      setSubmitting(false);
-    })
-    
-  }
-
-  if (loading) return <LoadingComponent content='Loading app' />
+  const location = useLocation();
 
   return (
-    <Fragment>
-      <NavBar openForm={handleFormOpen} />
+    <>
+      <ToastContainer position='bottom-right' hideProgressBar />
+      <NavBar />
       <Container style={{ marginTop: '7em' }}>
-        <StudentDashboard
-          students={students}
-          selectedStudent={selectedStudent}
-          selectStudent={handleSelectStudent}
-          cancelSelectStudent={handleCancelSelectStudent}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
-          createEdit={handleEditCreateStudent}
-          deleteStudent={handleDeleteStudent}
-          submitting={submitting}
-        />
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route exact path='/students' component={StudentDashboard} />
+          <Route path={'/errors'} component={TestErrors} />
+          <Route key={location.key} path={['/createStudent', `/edit/:id`]} component={StudentForm} />
+          <Route path='/students/:id' component={StudentDetails} />
+          <Route component={NotFound} />
+          {/* If we write/get a bad route, it will check all routes above, 
+          if doesnt match them, it will match the 28th line. Switch -> one route at a time */}
+        </Switch>
+
       </Container>
 
-    </Fragment>
+    </>
   );
 }
 
-export default App;
+export default observer(App);

@@ -1,18 +1,20 @@
-import React, { ChangeEvent } from "react";
+import { observer } from "mobx-react-lite";
+import { ChangeEvent, useEffect } from "react";
 import { useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Button, Form, Segment } from "semantic-ui-react";
-import { Student } from "../../../app/models/student";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { useStore } from "../../../app/stores/store";
+import { v4 as uuid } from 'uuid';
 
-interface Props {
-    student: Student | undefined;
-    closeForm: () => void;
-    createEdit: (student: Student) => void
-    submitting: boolean;
-}
+export default observer(function StudentForm() {
 
-export default function StudentForm({ student: selectedStudent, closeForm, createEdit, submitting }: Props) {
+    const history = useHistory();
+    const { studentStore } = useStore();
+    const { createStudent, updateStudent, loading, loadStudent, loadingInitial } = studentStore;
+    const { id } = useParams<{ id: string }>();
 
-    const initialState = selectedStudent ? selectedStudent : {
+    const [student, setStudent] = useState({
         id: '',
         name: '',
         surname: '',
@@ -29,18 +31,35 @@ export default function StudentForm({ student: selectedStudent, closeForm, creat
         parentStreet: '',
         parentCity: '',
         parentState: ''
-    }
+    });
 
-    const [student, setStudent] = useState(initialState);
+
+    useEffect(() => {
+        if (id) loadStudent(id).then(student => setStudent(student!))
+    }, [id, loadStudent]);
+
 
     function handleSubmit() {
-        createEdit(student);
+        if (student.id.length === 0) {
+            let newStudent = {
+                ...student,
+                id: uuid()
+            };
+            createStudent(newStudent).then(() => history.push(`/students/${newStudent.id}`))
+        } else {
+            updateStudent(student).then(() => history.push(`/students/${student.id}`))
+        }
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
         setStudent({ ...student, [name]: value })
     }
+
+
+    if (loadingInitial) return <LoadingComponent content="Loading student..." />
+
+
     return (
         <Segment clearing>
             <Form onSubmit={handleSubmit} autoComplete='off'>
@@ -59,9 +78,9 @@ export default function StudentForm({ student: selectedStudent, closeForm, creat
                 <Form.Input placeholder='ParentStreet' value={student.parentStreet} name='parentStreet' onChange={handleInputChange} />
                 <Form.Input placeholder='ParentCity' value={student.parentCity} name='parentCity' onChange={handleInputChange} />
                 <Form.Input placeholder='ParentState' value={student.parentState} name='parentState' onChange={handleInputChange} />
-                <Button loading={submitting} floated="right" positive type="submit" content='Submit' />
-                <Button onClick={closeForm} floated="right" type="button" content='Cancel' />
+                <Button loading={loading} floated="right" positive type="submit" content='Submit' />
+                <Button as={Link} to='/students' floated="right" type="button" content='Cancel' />
             </Form>
         </Segment>
     )
-}
+}) 

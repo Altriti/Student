@@ -18,6 +18,7 @@ namespace Domain
         public string Gender { get; set; }
         public string Nationality { get; set; }
         public string ParentName { get; set; }
+        //parentsurname me shtu
         public string ParentEmail { get; set; }
         public string ParentPhoneNumber { get; set; }
         public string ParentStreet { get; set; }

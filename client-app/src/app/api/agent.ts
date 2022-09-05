@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import { url } from "inspector";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { toast } from "react-toastify";
 import { Student } from "../models/student";
 
 const sleep = (delay: number) => {
@@ -13,13 +13,25 @@ const sleep = (delay: number) => {
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.response.use(async response => {
-    try {
-        await sleep(1000);
-        return response;
-    } catch (error) {
-        console.log(error);
-        return await Promise.reject(error);
+    await sleep(1000);
+    return response;
+}, (error: AxiosError) => {
+    const { data, status } = error.response!;
+    switch (status) {
+        case 400:
+            toast.error('bad request');
+            break;
+        case 401:
+            toast.error('unauthorise');
+            break;
+        case 404:
+            toast.error('not found');
+            break;
+        case 500:
+            toast.error('server error');
+            break;
     }
+    return Promise.reject(error);
 })
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -33,7 +45,7 @@ const requests = {
 
 const Students = {
     list: () => requests.get<Student[]>('/students'),
-    details: (id:string) => requests.get<Student>(`students/${id}`),
+    details: (id: string) => requests.get<Student>(`students/${id}`),
     create: (student: Student) => requests.post<void>(`/students`, student),
     update: (student: Student) => axios.put<void>(`/students/${student.id}`, student),
     delete: (id: string) => axios.delete<void>(`/students/${id}`)
