@@ -10,6 +10,7 @@ import StudentDetails from '../../features/students/details/StudentDetails';
 import TestErrors from '../../features/errors/TestError';
 import { ToastContainer } from 'react-toastify';
 import NotFound from '../../features/errors/NotFound';
+import ServerError from '../../features/errors/ServerError';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/students' component={StudentDashboard} />
           <Route path={'/errors'} component={TestErrors} />
+          <Route path={'/server-error'} component={ServerError} />
           <Route key={location.key} path={['/createStudent', `/edit/:id`]} component={StudentForm} />
           <Route path='/students/:id' component={StudentDetails} />
           <Route component={NotFound} />

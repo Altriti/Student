@@ -3,7 +3,7 @@ import agent from "../api/agent";
 import { Student } from "../models/student";
 
 export default class studentStore {
-    studentRegistry = new Map<string, Student>();
+    studentRegistry = new Map<string, Student>();//map get 2 arguments. Here it's getting studentid as string and whole student
     selectedStudent: Student | undefined = undefined;
     editMode = false;
     loading = false;
