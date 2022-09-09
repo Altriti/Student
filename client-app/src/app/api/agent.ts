@@ -30,7 +30,7 @@ axios.interceptors.response.use(async response => {
             if (data.errors) {
                 const modalStateErrors = [];
                 for (const key in data.errors) {
-                    if (data.errors[key]) {
+                    if (data.errors[key]) { //key -> city,email, name...; data.errors[key] -> city must not be empty, email must not be emty ...
                         modalStateErrors.push(data.errors[key])
                     }
                 }

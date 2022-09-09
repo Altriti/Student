@@ -30,7 +30,7 @@ function App() {
           <Route path='/students/:id' component={StudentDetails} />
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 
-          if doesnt match them, it will match the 28th line. Switch -> one route at a time */}
+          if doesnt match them, it will match the {NotFound}}. Switch -> one route at a time */}
         </Switch>
 
       </Container>

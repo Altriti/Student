@@ -21,7 +21,7 @@ namespace Application.Students
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Student).SetValidator(new StudentValidator());
+                RuleFor(x => x.Student).SetValidator(new StudentValidator());//rulefor - rule chains for properties
             }
         }
 
