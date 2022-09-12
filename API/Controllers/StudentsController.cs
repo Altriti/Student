@@ -34,7 +34,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> EditStudent(Guid id, Student student)
         {
-            student.Id = id;
+            student.Id = id;//neser studenti qe vjen prej requestit e ka id ndryshe, ktu qajo id i bohet njejt me id qe e ka pas ndatabaz se qishtu duhet per mos me pas error
             return HandleResult(await Mediator.Send(new Edit.Command { Student = student }));
         }
 

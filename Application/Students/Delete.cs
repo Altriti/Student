@@ -29,7 +29,7 @@ namespace Application.Students
 
                 // if (student == null) return null;
 
-                _context.Remove(student);
+                _context.Remove(student);//throws exception nese ska student, qata sna duhet rreshti ma nalt
 
                 var result = await _context.SaveChangesAsync() > 0;
 

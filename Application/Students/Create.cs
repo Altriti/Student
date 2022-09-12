@@ -12,7 +12,7 @@ namespace Application.Students
 {
     public class Create
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<Unit>>//unit i bjen qe sjem tu thy data, returns void
         {
             public Student Student { get; set; }
         }
@@ -40,7 +40,7 @@ namespace Application.Students
 
                 var result = await _context.SaveChangesAsync() > 0; //SaveChangesAsync return a integer
 
-                if (!result) return Result<Unit>.Failure("Failed to create Student");
+                if (!result) return Result<Unit>.Failure("Failed to create Student");//this is unneccesary tybe amo perqdo rast
 
                 return Result<Unit>.Success(Unit.Value);
             }

@@ -8,7 +8,7 @@ export default class commonStore{
         makeAutoObservable(this);
     }
 
-    setServerError = (error: ServerError) => {
-        this.error = error;
+    setServerError = (error: ServerError) => { //vjen prej store.commonStore.setServerError(data). error: ServerError osht qajo data i agent.ts
+        this.error = error; //error: ServerError | null = null = errorin qe vjen si parameter (error: ServerError)
     }
 }

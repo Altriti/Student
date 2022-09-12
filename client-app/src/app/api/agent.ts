@@ -29,12 +29,12 @@ axios.interceptors.response.use(async response => {
             }
             if (data.errors) {
                 const modalStateErrors = [];
-                for (const key in data.errors) {
+                for (const key in data.errors) { //for...in loop 
                     if (data.errors[key]) { //key -> city,email, name...; data.errors[key] -> city must not be empty, email must not be emty ...
                         modalStateErrors.push(data.errors[key])
                     }
                 }
-                throw modalStateErrors.flat();
+                throw modalStateErrors.flat();//flat -> list fo strings
             } else {
                 toast.error(data);
             }

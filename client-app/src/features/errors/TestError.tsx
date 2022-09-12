@@ -8,7 +8,7 @@ export default function TestErrors() {
     const [errors, setErrors] = useState(null);
 
     function handleNotFound() {
-        axios.get(baseUrl + 'buggy/not-found').catch(err => console.log(err.response));
+        axios.get(baseUrl + 'buggy/not-found').catch(err => console.log(err.response));//buggyController e kthen notFound. Permes axios e merr dhe e shfaq qat error
     }
 
     function handleBadRequest() {
@@ -30,6 +30,8 @@ export default function TestErrors() {
     function handleValidationError() {
         axios.post(baseUrl + 'students', {}).catch(err => setErrors(err));
     }
+
+    //ExceptionMiddleware e kthen ni error ose exception. Prej aty merren me endpoints, .catch e merr dhe e shfaqe errorin ne client-app
 
     return (
         <>

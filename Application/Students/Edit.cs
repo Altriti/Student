@@ -41,7 +41,7 @@ namespace Application.Students
             {
                 var student = await _context.Students.FindAsync(request.Student.Id);//ruan te var student studentin nga context qe e ka id e njejt me studentin ne request
 
-                if (student == null) return null;
+                if (student == null) return null;//nese ska, Result ka me kon null qe kthen notFound
 
                 _mapper.Map(request.Student, student);//student i domain po ndrrohet me student qe eshte request i cili po ruhet.
 

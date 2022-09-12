@@ -40,7 +40,7 @@ export default observer(function StudentForm() {
     const validationSchema = Yup.object({
         name: Yup.string().required(),
         surname: Yup.string().required(),
-        email: Yup.string().required(),
+        email: Yup.string().email().required(),
         phoneNumber: Yup.string().required(),
         street: Yup.string().required(),
         city: Yup.string().required(),
@@ -63,7 +63,7 @@ export default observer(function StudentForm() {
     function handleFormSubmit(student: Student) {
         if (student.id.length === 0) {
             let newStudent = {
-                ...student,
+                ...student, //studenti qe vjen prej formes. dmth studenti qe po vjen si parameter metodes
                 id: uuid()
             };
             createStudent(newStudent).then(() => history.push(`/students/${newStudent.id}`))

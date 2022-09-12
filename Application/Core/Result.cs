@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.Core
 {
-    public class Result<T>
+    public class Result<T>//T -> entity: student, activity, teacher ...
     {
         public bool IsSuccess { get; set; }
         public T Value { get; set; }

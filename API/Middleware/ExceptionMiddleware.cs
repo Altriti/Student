@@ -25,9 +25,9 @@ namespace API.Middleware
         {
             try
             {
-                await _next(context);
+                await _next(context);//E kthen qdo error.kthen Result edhe nese osht Success ose Failure. Dmth kthen gjithqka prej edit,delete,create... perveq ato qe kthejne exceptions si(delete me id gabim). Gjithashtu kthen qdo error, edhe buggyController errors(notfound....)
             }
-            catch (Exception ex)
+            catch (Exception ex)//E kthen qdo exception prej atyne qe nuk i kthen next i kthen kjo p.sh. kur e bon add tnjejtin student ose kur e delete ni student me id gabim. E kthen ni AppException
             {
                 _logger.LogError(ex, ex.Message);
                 context.Response.ContentType = "application/json";
