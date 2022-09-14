@@ -15,7 +15,7 @@ namespace API.Extensions
     public static class IdentityServiceExtensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services,
-            IConfiguration config)//debuge qa o qiky config bre
+            IConfiguration config)
         {
             services.AddIdentityCore<AppUser>(opt =>
             {

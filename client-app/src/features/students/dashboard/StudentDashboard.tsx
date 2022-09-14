@@ -15,7 +15,7 @@ export default observer(function StudentDashboard() {
         if (studentRegistry.size <= 1) loadStudents();
     }, [studentRegistry.size, loadStudents])
 
-    if (studentStore.loadingInitial) return <LoadingComponent content='Loading app' />
+    if (studentStore.loadingInitial) return <LoadingComponent content='Loading students...' />
 
     return (
         <Grid>

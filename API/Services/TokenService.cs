@@ -20,14 +20,14 @@ namespace API.Services
 
         public string CreateToken(AppUser user)
         {
-            var claims = new List<Claim>{
+            var claims = new List<Claim>{//claims osht ni variable me claims qe i bon useri per veten.
                 new Claim(ClaimTypes.Name, user.UserName),//claimtypes.name is gonna be user.username
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptior = new SecurityTokenDescriptor{
                 Subject = new ClaimsIdentity(claims),

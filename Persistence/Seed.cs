@@ -11,7 +11,7 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
-            if(!userManager.Users.Any()){
+            if(!userManager.Users.Any()){//ne ska asni user
                 var users = new List<AppUser>{
                     new AppUser{DisplayName = "Altrit", UserName = "altrit", Email = "altritgallapeni@gmail.com"},
                     new AppUser{DisplayName = "Shaban", UserName = "shaban", Email = "shabanmorina@gmail.com"},

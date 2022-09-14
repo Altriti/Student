@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-    public class UserDto
+    public class UserDto//mas qdo login ose register kena me kthy ket klase
     {
         public string DisplayName { get; set; }
         public string Token { get; set; }

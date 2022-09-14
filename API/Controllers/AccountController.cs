@@ -46,12 +46,13 @@ namespace API.Controllers
             return Unauthorized();//bad password
         }
 
-        [HttpPost("register")]
+        [HttpPost("register")]//register duhet me hek se ni user ska me mujt mu bo register vet, veq ni admin ka me bo register
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
             {
-                return BadRequest("This email is taken");
+                ModelState.AddModelError("email", "This email is taken");//this adds an error manualy
+                return ValidationProblem();
             }
 
             var user = new AppUser
