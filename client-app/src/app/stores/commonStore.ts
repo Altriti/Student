@@ -10,7 +10,7 @@ export default class CommonStore {
     constructor() {
         makeAutoObservable(this);
 
-        reaction(//Nuk ekzekutohet kur app first loads, ekzekutohet vetem kur token ka ndryshim
+        reaction(//Nuk ekzekutohet kur app first loads, ekzekutohet vetem kur token ka ndryshim ne "token"
             () => this.token,
             token => {
                 if (token) {

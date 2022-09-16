@@ -12,13 +12,13 @@ export default class UserStore {
     }
 
     get isLoggedIn() {
-        return !!this.user;
+        return !!this.user;//!! converts into boolean
     }
 
     login = async (creds: UserFormValues) => {
         try {
             const user = await agent.Account.login(creds);
-            store.commonStore.setToken(user.token);//kqyr qka permban qiky "user" me debugging
+            store.commonStore.setToken(user.token);//user -> osht useri qe vjen prej api (UserDto) prej Login method.
             runInAction(() => this.user = user);
             history.push('/');
             store.modalStore.closeModal();
