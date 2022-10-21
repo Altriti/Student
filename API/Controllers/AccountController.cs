@@ -5,11 +5,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Services;
+using Application.Core;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace API.Controllers
 {
@@ -21,13 +24,16 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TokenService _tokenService;
+        private readonly DataContext _context;
         public AccountController(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager, TokenService tokenService)
+        SignInManager<AppUser> signInManager, TokenService tokenService, DataContext context)
         {
+            _context = context;
             _tokenService = tokenService;
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
@@ -36,15 +42,20 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized();//nese user=null, i bjen qe FindByEmail nuk mundet me gjet emailen pasiqe nuk ekziston
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);//checkPass... takes 3 params: the user, the password and what to do in case of failure
-
-            if (result.Succeeded)
+            if (user.IsConfirmed)
             {
-                return CreateUserObject(user);
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);//checkPass... takes 3 params: the user, the password and what to do in case of failure
+
+                if (result.Succeeded)
+                {
+                    return CreateUserObject(user);
+                }
             }
 
             return Unauthorized();//bad password
         }
+
 
         [HttpPost("register")]//register duhet me hek se ni user ska me mujt mu bo register vet, veq ni admin ka me bo register
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
@@ -71,6 +82,37 @@ namespace API.Controllers
 
             return BadRequest("Problem registering user");
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<Result<Unit>> ConfirmStatus(String id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null) return Result<Unit>.Failure("Couldn't find user with the given id");
+
+            user.IsConfirmed = true;
+
+            var student = _context.Students.FirstOrDefault(x => x.AppUserId == id);
+
+            if (student == null) return Result<Unit>.Failure("Student is not active");
+
+            student.IsConfirmed = true;
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (!result) return Result<Unit>.Failure("User is already confirmed");
+
+            return Result<Unit>.Success(Unit.Value);
+        }
+
+
+        [HttpGet("users")]
+        public Task<List<AppUser>> GetUsers()
+        {
+            return  _context.Users.ToListAsync();
+        }
+
 
         [Authorize]
         [HttpGet]

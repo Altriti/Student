@@ -1,11 +1,13 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { history } from "../..";
 import agent from "../api/agent";
+import { AppUser } from "../models/appUser";
 import { User, UserFormValues } from "../models/user";
 import { store } from "./store";
 
 export default class UserStore {
     user: User | null = null;
+    userRegistry = new Map<string, AppUser>();
 
     constructor() {
         makeAutoObservable(this);
@@ -53,5 +55,39 @@ export default class UserStore {
         } catch (error) {
             throw error;
         }
+    }
+
+    confirmStudent = async (id: string) => {
+        // this.loading = true;
+        try {
+            await agent.Account.confirm(id);
+            runInAction(() => {
+                // this.loading = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                // this.loading = false;
+            })
+        }
+    }
+
+    get usersArr() {
+        return Array.from(this.userRegistry.values());
+    }
+
+    loadUsers = async () => {
+        try {
+            const users = await agent.Account.list();
+            users.forEach(user => {
+                this.setUser(user);
+            })
+        } catch (error){
+            console.log(error);
+        }
+    }
+
+    private setUser = (user: AppUser) => {
+        this.userRegistry.set(user.id, user);
     }
 }

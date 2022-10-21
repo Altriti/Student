@@ -7,6 +7,7 @@ using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Students
@@ -39,7 +40,9 @@ namespace Application.Students
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var student = await _context.Students.FindAsync(request.Student.Id);//ruan te var student studentin nga context qe e ka id e njejt me studentin ne request
+                _context.ChangeTracker.Clear();
+                // var student = await _context.Students.FindAsync(request.Student.Id);//ruan te var student studentin nga context qe e ka id e njejt me studentin ne request
+                var student = await _context.Students.Include(x => x.AppUser).SingleOrDefaultAsync(x => x.Id == request.Student.Id);
 
                 if (student == null) return null;//nese ska, Result ka me kon null qe kthen notFound
 

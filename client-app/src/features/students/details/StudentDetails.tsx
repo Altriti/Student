@@ -42,6 +42,8 @@ export default observer(function StudentDetails() {
                     <div>{student.parentStreet}</div>
                     <div>{student.parentCity}</div>
                     <div>{student.parentState}</div>
+                    <div>{student.isConfirmed.toString()}</div>
+                    <div>{student.appUserId}</div>
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>

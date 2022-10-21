@@ -15,4 +15,6 @@ export interface Student {
     parentStreet: string;
     parentCity: string;
     parentState: string;
+    isConfirmed: boolean;
+    appUserId: string;
 }

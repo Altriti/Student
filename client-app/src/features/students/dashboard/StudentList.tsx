@@ -7,8 +7,9 @@ import { useStore } from "../../../app/stores/store";
 
 export default observer(function StudentList() {
 
-    const { studentStore } = useStore();
+    const { studentStore, userStore } = useStore();
     const { deleteStudent, studentsArr, loading } = studentStore;
+    const { confirmStudent } = userStore;
 
     const [target, setTarget] = useState('');
 
@@ -17,6 +18,11 @@ export default observer(function StudentList() {
         deleteStudent(id);
     }
 
+    function handleStudentConfirm(e: SyntheticEvent<HTMLButtonElement>, id: string) {
+        setTarget(e.currentTarget.name);
+        confirmStudent(id);
+    }
+    //shtoj filters per mi filtrsu studentat requested edhe trregullt. Nese sbohet kerqysh add a new component
     return (
         <Segment>
             <Item.Group divided>
@@ -38,8 +44,18 @@ export default observer(function StudentList() {
                             <div>{student.parentStreet}</div>
                             <div>{student.parentCity}</div>
                             <div>{student.parentState}</div>
+                            <div>{student.isConfirmed.toString()}</div>
+                            <div>{student.appUserId}</div>
                         </Item.Description>
                         <Item.Extra>
+                            <Button
+                                content="Confirm"
+                                color="green"
+                                onClick={(e) => handleStudentConfirm(e, student.appUserId)}
+                                // loading={loading && target === student.id}
+                                name={student.id}
+                            //me hek butonin nese osht confirmed
+                            />
                             <Button
                                 as={Link} to={`/students/${student.id}`}
                                 floated="right"

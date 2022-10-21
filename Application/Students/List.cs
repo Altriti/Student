@@ -24,7 +24,9 @@ namespace Application.Students
 
             public async Task<Result<List<Student>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Student>>.Success(await _context.Students.ToListAsync(cancellationToken));
+                // return Result<List<Student>>.Success(await _context.Students.ToListAsync(cancellationToken));
+                // return Result<List<Student>>.Success(await _context.Students.Include(x => x.AppUser).Where(x=> x.AppUser.Id==x.Id.ToString()).ToListAsync(cancellationToken));
+                return Result<List<Student>>.Success(await _context.Students.Include(x => x.AppUser).ToListAsync(cancellationToken));
             }
         }
     }

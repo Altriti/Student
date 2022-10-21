@@ -34,7 +34,10 @@ export default observer(function StudentForm() {
         parentPhoneNumber: '',
         parentStreet: '',
         parentCity: '',
-        parentState: ''
+        parentState: '',
+        isConfirmed: false,//change this, this was only temporary
+        appUserId: ''
+
     });
 
     const validationSchema = Yup.object({

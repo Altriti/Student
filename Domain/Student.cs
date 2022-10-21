@@ -24,6 +24,9 @@ namespace Domain
         public string ParentStreet { get; set; }
         public string ParentCity { get; set; }
         public string ParentState { get; set; }
+        public bool IsConfirmed { get; set; } 
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
 
     }
 }

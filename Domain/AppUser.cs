@@ -10,5 +10,7 @@ namespace Domain
     {
         public string DisplayName { get; set; }
         public string Bio { get; set; }
+        public bool IsConfirmed { get; set; }
+        //public Student Student { get; set; }//spe di as spse o qiky qitu, ska kuptim
     }
 }

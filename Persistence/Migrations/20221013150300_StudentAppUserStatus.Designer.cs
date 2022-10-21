@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220912125638_IdentityAdded")]
-    partial class IdentityAdded
+    [Migration("20221013150300_StudentAppUserStatus")]
+    partial class StudentAppUserStatus
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsConfirmed")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
@@ -95,6 +98,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
@@ -103,6 +109,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Gender")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -141,6 +150,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Students");
                 });
@@ -271,6 +282,15 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Student", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

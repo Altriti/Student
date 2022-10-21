@@ -15,6 +15,7 @@ import LoginForm from '../../features/users/LoginForm';
 import { useStore } from '../stores/store';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
+import UsersList from '../../features/users/UsersList';
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
           <Route key={location.key} path={['/createStudent', `/edit/:id`]} component={StudentForm} />
           <Route path='/students/:id' component={StudentDetails} />
           <Route path='/login' component={LoginForm} />
+          <Route path='/users' component={UsersList} />
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 
           if doesnt match them, it will match the {NotFound}}. Switch -> one route at a time */}

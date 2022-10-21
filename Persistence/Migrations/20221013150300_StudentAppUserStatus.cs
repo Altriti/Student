@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class IdentityAdded : Migration
+    public partial class StudentAppUserStatus : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,6 +30,7 @@ namespace Persistence.Migrations
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     DisplayName = table.Column<string>(type: "TEXT", nullable: true),
                     Bio = table.Column<string>(type: "TEXT", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -156,6 +157,39 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Surname = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    Street = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    Gender = table.Column<string>(type: "TEXT", nullable: true),
+                    Nationality = table.Column<string>(type: "TEXT", nullable: true),
+                    ParentName = table.Column<string>(type: "TEXT", nullable: true),
+                    ParentEmail = table.Column<string>(type: "TEXT", nullable: true),
+                    ParentPhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    ParentStreet = table.Column<string>(type: "TEXT", nullable: true),
+                    ParentCity = table.Column<string>(type: "TEXT", nullable: true),
+                    ParentState = table.Column<string>(type: "TEXT", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Students_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +226,11 @@ namespace Persistence.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_AppUserId",
+                table: "Students",
+                column: "AppUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,6 +249,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

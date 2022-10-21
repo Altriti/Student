@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
+import { AppUser } from "../models/appUser";
 import { Student } from "../models/student";
 import { User, UserFormValues } from "../models/user";
 import { store } from "../stores/store";
@@ -80,7 +81,9 @@ const Students = {
 const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
-    register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+    register: (user: UserFormValues) => requests.post<User>('/account/register', user),
+    confirm: (id: string) => axios.put<void>(`/account/${id}`),
+    list: () => requests.get<AppUser[]>('account/users')
 }
 
 const agent = {
