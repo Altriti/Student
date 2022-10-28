@@ -9,25 +9,65 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            if(!userManager.Users.Any()){//ne ska asni user
+            if (!roleManager.RoleExistsAsync("Administrator").Result)
+            {
+                var role = new IdentityRole
+                {
+                    Name = "Administrator"
+                };
+                await roleManager.CreateAsync(role);
+            }
+
+            if (!roleManager.RoleExistsAsync("Student").Result)
+            {
+                var role = new IdentityRole
+                {
+                    Name = "Student"
+                };
+                await roleManager.CreateAsync(role);
+            }
+
+
+
+
+            if (!userManager.Users.Any())
+            {//ne ska asni user
                 var users = new List<AppUser>{
-                    new AppUser{DisplayName = "Altrit", UserName = "altrit", Email = "altritgallapeni@gmail.com"},
-                    new AppUser{DisplayName = "Shaban", UserName = "shaban", Email = "shabanmorina@gmail.com"},
-                    new AppUser{DisplayName = "Bexhet", UserName = "bexhet", Email = "bexhetberisha@gmail.com"}
+                    new AppUser{
+                        DisplayName = "Altrit",
+                        UserName = "altrit",
+                        Email = "altritgallapeni@gmail.com",
+                        IsConfirmed = true
+                    },
+                    new AppUser
+                    {
+                        DisplayName = "Shaban",
+                        UserName = "shaban",
+                        Email = "shabanmorina@gmail.com",
+                        IsConfirmed = true
+                    },
+                    new AppUser
+                    {
+                        DisplayName = "Bexhet",
+                        UserName = "bexhet",
+                        Email = "bexhetberisha@gmail.com",
+                        IsConfirmed = true
+                    }
                 };
 
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
+                    await userManager.AddToRoleAsync(user, "Administrator");
                 }
             }
 
 
 
             if (context.Students.Any()) return;
-            
+
             var students = new List<Student>
             {
                 new Student
@@ -47,6 +87,7 @@ namespace Persistence
                     ParentStreet = "William Walker",
                     ParentCity = "Prizren",
                     ParentState = "Kosovo",
+                    IsConfirmed = true
                 },
                 new Student
                 {
@@ -65,6 +106,7 @@ namespace Persistence
                     ParentStreet = "William Walker",
                     ParentCity = "Prizren",
                     ParentState = "Kosovo",
+                    IsConfirmed = true
                 },
                 new Student
                 {
@@ -83,6 +125,7 @@ namespace Persistence
                     ParentStreet = "Rruga 123",
                     ParentCity = "Suhareke",
                     ParentState = "Kosovo",
+                    IsConfirmed = true
                 },
             };
 

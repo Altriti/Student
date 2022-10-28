@@ -100,6 +100,7 @@ namespace Application.Students
 
 
                     await _userManager.CreateAsync(user, "Pa$$w0rd"); //qitu mas qetij rreshtu mos duhet edhe ni savechanges????
+                    await _userManager.AddToRoleAsync(user, "Student");
                     // _context.Users.Add(user);
                     // await _context.SaveChangesAsync();
 

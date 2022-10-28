@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class StudentAppUserStatus : Migration
+    public partial class RolesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
