@@ -25,9 +25,11 @@ namespace API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TokenService _tokenService;
         private readonly DataContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
         public AccountController(UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager, TokenService tokenService, DataContext context)
+        SignInManager<AppUser> signInManager, TokenService tokenService, DataContext context, RoleManager<IdentityRole> roleManager)
         {
+            _roleManager = roleManager;
             _context = context;
             _tokenService = tokenService;
             _signInManager = signInManager;
@@ -125,12 +127,16 @@ namespace API.Controllers
 
         private UserDto CreateUserObject(AppUser user)//per mos me perserit shum, e krijojm ni metode edhe i zevendsojm LOOK AT REFERENCES
         {
+            // var role = _context.UserRoles.FirstOrDefault(x => x.RoleId.Where(x.UserId == user.Id))
+            var roleU = _context.UserRoles.FirstOrDefault(x => x.UserId==user.Id);
+            var role = _roleManager.Roles.FirstOrDefault(x => x.Id == roleU.RoleId);
             return new UserDto
             {
                 DisplayName = user.DisplayName,
                 Image = null,
                 Token = _tokenService.CreateToken(user),
-                Username = user.UserName
+                Username = user.UserName,
+                Role = role.Name
             };
         }
     }

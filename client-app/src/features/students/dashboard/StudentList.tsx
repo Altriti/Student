@@ -47,28 +47,42 @@ export default observer(function StudentList() {
                             <div>{student.isConfirmed.toString()}</div>
                             <div>{student.appUserId}</div>
                         </Item.Description>
-                        <Item.Extra>
-                            <Button
-                                content="Confirm"
-                                color="green"
-                                onClick={(e) => handleStudentConfirm(e, student.appUserId)}
-                                // loading={loading && target === student.id}
-                                name={student.id}
-                            //me hek butonin nese osht confirmed
-                            />
-                            <Button
-                                as={Link} to={`/students/${student.id}`}
-                                floated="right"
-                                content='View'
-                                color="blue" />
-                            <Button
-                                name={student.id}
-                                loading={loading && target === student.id}
-                                onClick={(e) => handleStudentDelete(e, student.id)}
-                                floated="right"
-                                content='Delete'
-                                color="red" />
-                        </Item.Extra>
+                        {userStore.user?.role === "Administrator" ? (
+                            <>
+                                <Item.Extra>
+                                    <Button
+                                        content="Confirm"
+                                        color="green"
+                                        onClick={(e) => handleStudentConfirm(e, student.appUserId)}
+                                        // loading={loading && target === student.id}
+                                        name={student.id}
+                                    //me hek butonin nese osht confirmed
+                                    />
+                                    <Button
+                                        as={Link} to={`/students/${student.id}`}
+                                        floated="right"
+                                        content='View'
+                                        color="blue" />
+                                    <Button
+                                        name={student.id}
+                                        loading={loading && target === student.id}
+                                        onClick={(e) => handleStudentDelete(e, student.id)}
+                                        floated="right"
+                                        content='Delete'
+                                        color="red" />
+                                </Item.Extra>
+                            </>
+                        ) : (
+                            <>
+                                <Button
+                                    as={Link} to={`/students/${student.id}`}
+                                    floated="right"
+                                    content='View'
+                                    color="blue" />
+                            </>
+                        )
+                        }
+
                     </Item>
                 ))}
             </Item.Group>

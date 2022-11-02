@@ -8,6 +8,7 @@ import { store } from "./store";
 export default class UserStore {
     user: User | null = null;
     userRegistry = new Map<string, AppUser>();
+    // userRole: string;
 
     constructor() {
         makeAutoObservable(this);
@@ -90,4 +91,13 @@ export default class UserStore {
     private setUser = (user: AppUser) => {
         this.userRegistry.set(user.id, user);
     }
+
+    // getUserRole = async () => {
+    //     try{
+    //         const user = agent.Account.current();
+    //         runInAction(() => this.userRole = user);
+    //     }catch(error){
+    //         console.log(error);
+    //     }
+    // }
 }
