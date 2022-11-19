@@ -14,14 +14,14 @@ namespace API.Controllers
     public class StudentsController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult> GetStudents()
+        public async Task<IActionResult> GetStudents()
         {
             return HandleResult(await Mediator.Send(new List.Query()));
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetStudentById(Guid id)
+        public async Task<IActionResult> GetStudentById(Guid id)
         {
             return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
@@ -37,7 +37,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> EditStudent(Guid id, Student student)
         {
-            student.Id = id;//neser studenti qe vjen prej requestit e ka id ndryshe, ktu qajo id i bohet njejt me id qe e ka pas ndatabaz se qishtu duhet per mos me pas error
+            student.Id = id;//nese studenti vjen pa id se jo me qdo kusht vjen em id, ktu qajo id i bohet njejt me id qe e ka pas ndatabaz se qishtu duhet per mos me pas error
             return HandleResult(await Mediator.Send(new Edit.Command { Student = student }));
         }
 

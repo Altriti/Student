@@ -10,8 +10,9 @@ namespace Application.Core
     public class MappingProfiles : Profile
     {
         public MappingProfiles()
-        {
-            CreateMap<Student, Student>();
+        {    
+            CreateMap<Student, Student>().ForMember(x => x.AppUser, y => y.Ignore());
+            CreateMap<Professor, Professor>().ForMember(x => x.AppUser, y => y.Ignore());
         }
     }
 }

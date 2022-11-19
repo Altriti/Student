@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Students
@@ -27,7 +28,8 @@ namespace Application.Students
 
             public async Task<Result<Student>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var student = await _context.Students.FindAsync(request.Id);
+                var student = await _context.Students.Include(x => x.AppUser).FirstOrDefaultAsync(x => x.Id == request.Id);
+                // var student = await _context.Students.Include(x => x.AppUser).FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 return Result<Student>.Success(student);
             }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
-using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -34,12 +33,10 @@ namespace Application.Students
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-            private readonly IUserAccessor _userAccessor;
             private readonly UserManager<AppUser> _userManager;
-            public Handler(DataContext context, IUserAccessor userAccessor, UserManager<AppUser> userManager)
+            public Handler(DataContext context, UserManager<AppUser> userManager)
             {
                 _userManager = userManager;
-                _userAccessor = userAccessor;
                 _context = context;
             }
 

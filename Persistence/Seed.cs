@@ -29,12 +29,22 @@ namespace Persistence
                 await roleManager.CreateAsync(role);
             }
 
+            if (!roleManager.RoleExistsAsync("Professor").Result)
+            {
+                var role = new IdentityRole
+                {
+                    Name = "Professor"
+                };
+                await roleManager.CreateAsync(role);
+            }
+
 
 
 
             if (!userManager.Users.Any())
             {//ne ska asni user
-                var users = new List<AppUser>{
+                var studentUsers = new List<AppUser>
+                {
                     new AppUser{
                         DisplayName = "Altrit",
                         UserName = "altrit",
@@ -54,19 +64,50 @@ namespace Persistence
                         UserName = "bexhet",
                         Email = "bexhetberisha@gmail.com",
                         IsConfirmed = true
+                    },
+                };
+
+                var professorUsers = new List<AppUser>
+                {
+                    new AppUser
+                    {
+                        DisplayName = "Rick",
+                        UserName = "rick",
+                        Email = "rick@student.com",
+                        IsConfirmed = true
+                    },
+                    new AppUser
+                    {
+                        DisplayName = "Morty",
+                        UserName = "morty",
+                        Email = "morty@student.com",
+                        IsConfirmed = true
+                    },
+                    new AppUser
+                    {
+                        DisplayName = "Summer",
+                        UserName = "summer",
+                        Email = "summer@student.com",
+                        IsConfirmed = true
                     }
                 };
 
-                foreach (var user in users)
+                foreach (var studentUser in studentUsers)
                 {
-                    await userManager.CreateAsync(user, "Pa$$w0rd");
-                    await userManager.AddToRoleAsync(user, "Administrator");
-                }
+                    await userManager.CreateAsync(studentUser, "Pa$$w0rd");
+                    await userManager.AddToRoleAsync(studentUser, "Administrator");
+                };
+
+                foreach (var professorUser in professorUsers)
+                {
+                    await userManager.CreateAsync(professorUser, "Pa$$w0rd");
+                    await userManager.AddToRoleAsync(professorUser, "Professor");
+                };
             }
 
 
 
-            if (context.Students.Any()) return;
+            if (context.Students.Any() && context.Professors.Any()) return;
 
             var students = new List<Student>
             {
@@ -129,7 +170,49 @@ namespace Persistence
                 },
             };
 
+
+            var professors = new List<Professor>
+            {
+                new Professor
+                {
+                    Name = "Peter",
+                    Surname = "Griffin",
+                    Email = "peter@gmail.com",
+                    PhoneNumber = "+383222222",
+                    Street = "Spooner Street",
+                    City = "Quahog",
+                    State = "USA",
+                    Gender = "Male",
+                    Nationality = "American"
+                },
+                new Professor
+                {
+                    Name = "Lois",
+                    Surname = "Griffin",
+                    Email = "lois@gmail.com",
+                    PhoneNumber = "+383333333",
+                    Street = "Spooner Street",
+                    City = "Quahog",
+                    State = "USA",
+                    Gender = "Female",
+                    Nationality = "American"
+                },
+                new Professor
+                {
+                    Name = "Stewie",
+                    Surname = "Griffin",
+                    Email = "stewie@gmail.com",
+                    PhoneNumber = "+383444444",
+                    Street = "Spooner Street",
+                    City = "Quahog",
+                    State = "USA",
+                    Gender = "Male",
+                    Nationality = "American"
+                },
+            };
+
             await context.Students.AddRangeAsync(students);
+            await context.Professors.AddRangeAsync(professors);
             await context.SaveChangesAsync();
         }
     }

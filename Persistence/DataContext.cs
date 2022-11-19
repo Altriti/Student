@@ -15,16 +15,6 @@ namespace Persistence
         }
 
         public DbSet<Student> Students { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            // builder.Entity<AppUser>()
-            //     .HasOne(a => a.Student)
-            //     .WithOne(s => s.AppUser)
-            //     .HasForeignKey<Student>(s => s.AppUserId)
-            //     .OnDelete(DeleteBehavior.Cascade);
-        }
+        public DbSet<Professor> Professors { get; set; }
     }
 }
