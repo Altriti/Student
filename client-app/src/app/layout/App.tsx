@@ -16,6 +16,8 @@ import { useStore } from '../stores/store';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
 import UsersList from '../../features/users/UsersList';
+import ProfessorDashboard from '../../features/professors/dashboard/ProfessorDashboard';
+import ProfessorDetails from '../../features/professors/details/ProfessorDetails';
 
 function App() {
 
@@ -47,6 +49,8 @@ function App() {
           <Route path='/students/:id' component={StudentDetails} />
           <Route path='/login' component={LoginForm} />
           <Route path='/users' component={UsersList} />
+          <Route exact path='/professors' component={ProfessorDashboard} />
+          <Route path='/professors/:id' component={ProfessorDetails} />
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 
           if doesnt match them, it will match the {NotFound}}. Switch -> one route at a time */}

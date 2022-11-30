@@ -24,7 +24,7 @@ export default class StudentStore {
             const students = await agent.Students.list();
             students.forEach(student => {
                 this.setStudent(student);
-            })
+            });
             this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
