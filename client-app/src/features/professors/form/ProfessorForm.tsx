@@ -7,11 +7,13 @@ import MyTextInput from "../../../app/common/form/MyTextInput";
 import { Professor } from "../../../app/models/professor";
 import { useStore } from "../../../app/stores/store";
 import { v4 as uuid } from 'uuid';
+import * as Yup from 'yup';
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 export default observer(function ProfessorForm() {
     const { id } = useParams<{ id: string }>();
     const { professorStore } = useStore();
-    const { loadProfessor, createProfessor, updateProfessor, loading } = professorStore;
+    const { loadProfessor, createProfessor, updateProfessor, loading, loadingInitial } = professorStore;
     const history = useHistory();
 
     const [professor, setProfessor] = useState({
@@ -27,6 +29,18 @@ export default observer(function ProfessorForm() {
         nationality: '',
         appUserId: ''
     });
+
+    const validationSchema = Yup.object({
+        name: Yup.string().required(),
+        surname: Yup.string().required(),
+        email: Yup.string().required(),
+        phoneNumber: Yup.string().email().required(),
+        street: Yup.string().required(),
+        city: Yup.string().required(),
+        state: Yup.string().required(),
+        gender: Yup.string().required(),
+        nationality: Yup.string().required()
+    })
 
     useEffect(() => {
         if (id) loadProfessor(id).then(professor => setProfessor(professor!));
@@ -44,10 +58,13 @@ export default observer(function ProfessorForm() {
         }
     }
 
+    if (loadingInitial) return <LoadingComponent content="Loading Professor"/>
+
     return (
         <Segment clearing>
             <Header content='Professor Details' sub color="teal" />
             <Formik
+                validationSchema={validationSchema}
                 enableReinitialize
                 initialValues={professor}
                 onSubmit={values => handleFormSubmit(values)}

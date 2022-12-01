@@ -74,7 +74,9 @@ export default class professorStore {
             })
         } catch (error) {
             console.log(error);
-            this.loading = false;
+            runInAction(() => {
+                this.loading = false;
+            })
         }
     }
 
@@ -89,7 +91,9 @@ export default class professorStore {
             })
         } catch (error) {
             console.log(error);
-            this.loading = false;
+            runInAction(() => {
+                this.loading = false;
+            })
         }
     }
 
