@@ -17,17 +17,22 @@ export default class professorStore {
     }
 
     loadProfessors = async () => {
-        this.loadingInitial = true;
+        runInAction(() => {
+            this.loadingInitial = true;
+        })
         try {
             const professors = await agent.Professors.list();
-            console.log(professors);
             professors.forEach(professor => {
                 this.setProfessor(professor);
             });
-            this.loadingInitial = false;
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
         } catch (error) {
             console.log(error);
-            this.loadingInitial = false;
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
         }
     }
 
@@ -38,18 +43,22 @@ export default class professorStore {
             this.selectedProfessor = professor;
             return professor;
         } else {
-            this.loadingInitial = true;
+            runInAction(() => {
+                this.loadingInitial = true;
+            })
             try {
                 professor = await agent.Professors.details(id);
                 this.setProfessor(professor);
                 runInAction(() => {
                     this.selectedProfessor = professor;
+                    this.loadingInitial = false;
                 });
-                this.loadingInitial = false;
                 return professor;
             } catch (error) {
                 console.log(error);
-                this.loadingInitial = false;
+                runInAction(() => {
+                    this.loadingInitial = false;
+                })
             }
         }
     }
@@ -107,7 +116,9 @@ export default class professorStore {
             })
         } catch (error) {
             console.log(error);
-            this.loading = false;
+            runInAction(() => {
+                this.loading = false;
+            })
         }
     }
 }
