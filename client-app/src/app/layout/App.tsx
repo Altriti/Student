@@ -18,6 +18,7 @@ import ModalContainer from '../common/modals/ModalContainer';
 import UsersList from '../../features/users/UsersList';
 import ProfessorDashboard from '../../features/professors/dashboard/ProfessorDashboard';
 import ProfessorDetails from '../../features/professors/details/ProfessorDetails';
+import ProfessorForm from '../../features/professors/form/ProfessorForm';
 
 function App() {
 
@@ -45,11 +46,12 @@ function App() {
           <Route exact path='/students' component={StudentDashboard} />
           <Route path={'/errors'} component={TestErrors} />
           <Route path={'/server-error'} component={ServerError} />
-          <Route key={location.key} path={['/createStudent', `/edit/:id`]} component={StudentForm} />
+          <Route key={location.key} path={['/createStudent', `/students/edit/:id`]} component={StudentForm} />
           <Route path='/students/:id' component={StudentDetails} />
           <Route path='/login' component={LoginForm} />
           <Route path='/users' component={UsersList} />
           <Route exact path='/professors' component={ProfessorDashboard} />
+          <Route key={location.key} path={['/createProfessor', `/professors/edit/:id`]} component={ProfessorForm} />
           <Route path='/professors/:id' component={ProfessorDetails} />
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 

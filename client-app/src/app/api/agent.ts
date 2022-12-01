@@ -89,7 +89,10 @@ const Account = {
 
 const Professors = {
     list: () => requests.get<Professor[]>('/professors'),
-    details: (id: string) => requests.get<Professor>(`/professors/${id}`)
+    details: (id: string) => requests.get<Professor>(`/professors/${id}`),
+    create: (professor: Professor) => requests.post<void>(`/professors`, professor),
+    update: (professor: Professor) => axios.put<void>(`/professors/${professor.id}`, professor),
+    delete: (id: string) => axios.delete<void>(`/professors/${id}`)
 }
 
 const agent = {

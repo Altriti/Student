@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Image, Item } from "semantic-ui-react";
+import { Link, useParams } from "react-router-dom";
+import { Button, Card, Image, Item } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
 
@@ -35,7 +35,22 @@ export default observer(function ProfessorDetails() {
                         <div>{professor.appUserId}</div>
                     </Item.Description>
                 </Item>
-
+                <Card.Content extra>
+                    <Button.Group widths='2'>
+                        <Button
+                            content='Edit'
+                            color="blue"
+                            basic
+                            as={Link} to={`/professors/edit/${professor.id}`}
+                        />
+                        <Button
+                            content='Cancel'
+                            color="grey"
+                            basic
+                            as={Link} to='/professors' 
+                        />
+                    </Button.Group>
+                </Card.Content>
             </Item.Group>
 
         </Card>

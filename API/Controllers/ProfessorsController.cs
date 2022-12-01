@@ -32,7 +32,7 @@ namespace API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditProfessor(Professor professor, Guid id)
+        public async Task<IActionResult> EditProfessor( Guid id, Professor professor)
         {
             professor.Id = id;
             return HandleResult(await Mediator.Send(new Edit.Command { Professor = professor }));

@@ -6,6 +6,7 @@ export default class professorStore {
     professorRegistry = new Map<string, Professor>();
     selectedProfessor: Professor | undefined = undefined;
     loadingInitial = false;
+    loading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -60,5 +61,49 @@ export default class professorStore {
 
     private getProfessor = (id: string) => {
         return this.professorRegistry.get(id);
+    }
+
+    createProfessor = async (professor: Professor) => {
+        this.loading = true;
+        try {
+            await agent.Professors.create(professor);
+            runInAction(() => {
+                this.professorRegistry.set(professor.id, professor);
+                this.selectedProfessor = professor;
+                this.loading = false
+            })
+        } catch (error) {
+            console.log(error);
+            this.loading = false;
+        }
+    }
+
+    updateProfessor = async (professor: Professor) => {
+        this.loading = true;
+        try {
+            await agent.Professors.update(professor);
+            runInAction(() => {
+                this.professorRegistry.set(professor.id, professor);
+                this.selectedProfessor = professor;
+                this.loading = false;
+            })
+        } catch (error) {
+            console.log(error);
+            this.loading = false;
+        }
+    }
+
+    deleteProfessor = async (id: string) => {
+        this.loading = true;
+        try {
+            await agent.Professors.delete(id);
+            runInAction(() => {
+                this.professorRegistry.delete(id);
+                this.loading = false;
+            })
+        } catch (error) {
+            console.log(error);
+            this.loading = false;
+        }
     }
 }

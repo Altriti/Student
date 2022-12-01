@@ -19,7 +19,7 @@ export default observer(function StudentList() {
     }
 
     function handleStudentConfirm(e: SyntheticEvent<HTMLButtonElement>, id: string) {
-        setTarget(e.currentTarget.name);
+        setTarget(e.currentTarget.name);//unnecessary???
         confirmStudent(id);
     }
     //shtoj filters per mi filtrsu studentat requested edhe trregullt. Nese sbohet kerqysh add a new component

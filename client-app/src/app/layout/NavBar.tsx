@@ -16,10 +16,12 @@ export default observer(function NavBar() {
                     HomePage
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/students' name="Students" />
+                <Menu.Item as={NavLink} to='/professors' name="Professors" />
                 <Menu.Item as={NavLink} to='/users' name="Users" />
                 <Menu.Item as={NavLink} to='/errors' name="Errors" />
                 <Menu.Item>
                     <Button as={NavLink} to='/createStudent' positive content='Add Student' />
+                    <Button as={NavLink} to='/createProfessor' positive content='Add Professor' />
                 </Menu.Item>
                 <Menu.Item >
                     <Button onClick={() => modalStore.openModal(<LoginForm />)} >
