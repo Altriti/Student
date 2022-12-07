@@ -32,7 +32,7 @@ namespace Application.Students
             {
                 var student = await _context.Students.Include(x => x.AppUser).SingleOrDefaultAsync(x => x.Id == request.Id);//qitu a me bo kur ta delete ni student mu delete edhe si user?????
 
-                // if (student == null) return null;
+                if (student == null) return null;
  
                 student.AppUser.IsConfirmed = false;
 
