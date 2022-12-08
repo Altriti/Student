@@ -17,11 +17,13 @@ export default observer(function NavBar() {
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/students' name="Students" />
                 <Menu.Item as={NavLink} to='/professors' name="Professors" />
+                <Menu.Item as={NavLink} to='/subjects' name="Subjects" />
                 <Menu.Item as={NavLink} to='/users' name="Users" />
                 <Menu.Item as={NavLink} to='/errors' name="Errors" />
                 <Menu.Item>
                     <Button as={NavLink} to='/createStudent' positive content='Add Student' />
                     <Button as={NavLink} to='/createProfessor' positive content='Add Professor' />
+                    <Button as={NavLink} to='/createSubject' positive content='Add Subject' />
                 </Menu.Item>
                 <Menu.Item >
                     <Button onClick={() => modalStore.openModal(<LoginForm />)} >

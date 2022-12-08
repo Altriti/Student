@@ -42,9 +42,7 @@ export default observer(function ProfessorForm() {
         nationality: Yup.string().required()
     })
 
-    useEffect(() => {
-        if (id) loadProfessor(id).then(professor => setProfessor(professor!));
-    }, [id, loadProfessor])
+
 
     function handleFormSubmit(professor: Professor) {
         if (professor.id.length === 0) {
@@ -58,7 +56,12 @@ export default observer(function ProfessorForm() {
         }
     }
 
-    if (loadingInitial) return <LoadingComponent content="Loading Professor"/>
+
+    useEffect(() => {
+        if (id) loadProfessor(id).then(professor => setProfessor(professor!));
+    }, [id, loadProfessor])
+
+    if (loadingInitial) return <LoadingComponent content="Loading Professor" />
 
     return (
         <Segment clearing>

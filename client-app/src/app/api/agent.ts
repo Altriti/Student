@@ -4,6 +4,7 @@ import { history } from "../..";
 import { AppUser } from "../models/appUser";
 import { Professor } from "../models/professor";
 import { Student } from "../models/student";
+import { Subject } from "../models/subject";
 import { User, UserFormValues } from "../models/user";
 import { store } from "../stores/store";
 
@@ -95,10 +96,19 @@ const Professors = {
     delete: (id: string) => axios.delete<void>(`/professors/${id}`)
 }
 
+const Subjects = {
+    list: () => requests.get<Subject[]>('/subjects'),
+    details: (id: string)=>requests.get<Subject>(`/subjects/${id}`),
+    create: (subject: Subject) => requests.post<void>(`/subjects`, subject),
+    update: (subject: Subject) => axios.put<void>(`/subjects/${subject.id}`, subject),
+    delete: (id: string) => axios.delete<void>(`/subjects/${id}`)
+}
+
 const agent = {
     Students,
     Account,
-    Professors
+    Professors,
+    Subjects
 }
 
 export default agent;

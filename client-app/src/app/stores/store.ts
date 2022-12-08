@@ -3,6 +3,7 @@ import CommonStore from "./commonStore";
 import ModalStore from "./modalStore";
 import professorStore from "./professorStore";
 import StudentStore from "./studentStore";
+import subjectStore from "./subjectStore";
 import UserStore from "./userStore";
 
 interface Store {
@@ -11,6 +12,7 @@ interface Store {
     userStore: UserStore;
     modalStore: ModalStore;
     professorStore: professorStore;
+    subjectStore: subjectStore;
 }
 
 export const store: Store = {
@@ -18,7 +20,8 @@ export const store: Store = {
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     modalStore: new ModalStore(),
-    professorStore: new professorStore()
+    professorStore: new professorStore(),
+    subjectStore: new subjectStore()
 }
 
 export const StoreContext = createContext(store);
