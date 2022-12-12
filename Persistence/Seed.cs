@@ -105,12 +105,13 @@ namespace Persistence
                 };
             }
 
-            
-            
 
 
 
-            if (context.Students.Any() && context.Professors.Any() && context.Subjects.Any()) return;
+
+
+            if (context.Students.Any() && context.Professors.Any()
+                && context.Subjects.Any() && context.Classes.Any()) return;
 
             var students = new List<Student>
             {
@@ -216,23 +217,43 @@ namespace Persistence
 
             var subjects = new List<Subject>
             {
-                new Subject{
+                new Subject
+                {
                     Id = "1",
                     Name = "Math"
                 },
-                new Subject{
+                new Subject
+                {
                     Id = "2",
                     Name = "Chem"
                 },
-                new Subject{
+                new Subject
+                {
                     Id = "3",
                     Name = "Eng"
+                }
+            };
+
+            var classes = new List<Class>
+            {
+                new Class
+                {
+                    ClassName = "10"
+                },
+                new Class
+                {
+                    ClassName = "11"
+                },
+                new Class
+                {
+                    ClassName = "12"
                 }
             };
 
             await context.Students.AddRangeAsync(students);
             await context.Professors.AddRangeAsync(professors);
             await context.Subjects.AddRangeAsync(subjects);
+            await context.Classes.AddRangeAsync(classes);
             await context.SaveChangesAsync();
         }
     }
