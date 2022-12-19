@@ -24,7 +24,7 @@ namespace Application.Classes
 
             public async Task<Result<List<Class>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Class>>.Success(await _context.Classes.ToListAsync());
+                return Result<List<Class>>.Success(await _context.Classes.Include(x => x.ClassProfessor).ToListAsync());
             }
         }
     }

@@ -33,8 +33,8 @@ export default observer(function ProfessorForm() {
     const validationSchema = Yup.object({
         name: Yup.string().required(),
         surname: Yup.string().required(),
-        email: Yup.string().required(),
-        phoneNumber: Yup.string().email().required(),
+        email: Yup.string().email().required(),
+        phoneNumber: Yup.string().required(),
         street: Yup.string().required(),
         city: Yup.string().required(),
         state: Yup.string().required(),

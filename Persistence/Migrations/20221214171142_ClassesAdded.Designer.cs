@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221212131517_ClassesAdded")]
+    [Migration("20221214171142_ClassesAdded")]
     partial class ClassesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,7 +101,12 @@ namespace Persistence.Migrations
                     b.Property<string>("ClassName")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ClassProfessorId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassProfessorId");
 
                     b.ToTable("Classes");
                 });
@@ -352,6 +357,15 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Class", b =>
+                {
+                    b.HasOne("Domain.Professor", "ClassProfessor")
+                        .WithMany()
+                        .HasForeignKey("ClassProfessorId");
+
+                    b.Navigation("ClassProfessor");
                 });
 
             modelBuilder.Entity("Domain.Professor", b =>

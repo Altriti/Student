@@ -10,5 +10,6 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public String ClassName { get; set; }
+        public Professor ClassProfessor { get; set; }
     }
 }

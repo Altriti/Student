@@ -52,18 +52,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Classes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClassName = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Subjects",
                 columns: table => new
                 {
@@ -240,6 +228,24 @@ namespace Persistence.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Classes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ClassName = table.Column<string>(type: "TEXT", nullable: true),
+                    ClassProfessorId = table.Column<Guid>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Classes_Professors_ClassProfessorId",
+                        column: x => x.ClassProfessorId,
+                        principalTable: "Professors",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -278,6 +284,11 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_ClassProfessorId",
+                table: "Classes",
+                column: "ClassProfessorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Professors_AppUserId",
                 table: "Professors",
                 column: "AppUserId");
@@ -309,9 +320,6 @@ namespace Persistence.Migrations
                 name: "Classes");
 
             migrationBuilder.DropTable(
-                name: "Professors");
-
-            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
@@ -319,6 +327,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Professors");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -99,7 +99,12 @@ namespace Persistence.Migrations
                     b.Property<string>("ClassName")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ClassProfessorId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassProfessorId");
 
                     b.ToTable("Classes");
                 });
@@ -350,6 +355,15 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Class", b =>
+                {
+                    b.HasOne("Domain.Professor", "ClassProfessor")
+                        .WithMany()
+                        .HasForeignKey("ClassProfessorId");
+
+                    b.Navigation("ClassProfessor");
                 });
 
             modelBuilder.Entity("Domain.Professor", b =>
