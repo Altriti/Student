@@ -21,6 +21,7 @@ import ProfessorDetails from '../../features/professors/details/ProfessorDetails
 import ProfessorForm from '../../features/professors/form/ProfessorForm';
 import SubjectDashboard from '../../features/subjects/dashboard/SubjectDashboard';
 import SubjectForm from '../../features/subjects/form/SubjectForm';
+import ClassForm from '../../features/classR/ClassForm';
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
           <Route exact path='/subjects' component={SubjectDashboard} />
           <Route key={location.key} path={['/createSubject', `/subjects/edit/:id`]} component={SubjectForm} />
           <Route path='/subjectForm' component={SubjectForm} />
+          <Route path='/classForm' component={ClassForm}/>
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 
           if doesnt match them, it will match the {NotFound}}. Switch -> one route at a time */}
