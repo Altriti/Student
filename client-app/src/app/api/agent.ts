@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { AppUser } from "../models/appUser";
+import { Class } from "../models/class";
 import { Professor } from "../models/professor";
 import { Student } from "../models/student";
 import { Subject } from "../models/subject";
@@ -98,17 +99,27 @@ const Professors = {
 
 const Subjects = {
     list: () => requests.get<Subject[]>('/subjects'),
-    details: (id: string)=>requests.get<Subject>(`/subjects/${id}`),
+    details: (id: string) => requests.get<Subject>(`/subjects/${id}`),
     create: (subject: Subject) => requests.post<void>(`/subjects`, subject),
     update: (subject: Subject) => axios.put<void>(`/subjects/${subject.id}`, subject),
     delete: (id: string) => axios.delete<void>(`/subjects/${id}`)
+}
+
+const Classes = {
+    list: () => requests.get<Class[]>('/classes'),
+    details: (id: string) => requests.get<Class>(`/classes/${id}`),
+    create: (classR: Class) => requests.post<void>(`/classes`, classR),
+    update: (classR: Class) => axios.put<void>(`/classes/${classR.id}`, classR),
+    delete: (id: string) => axios.delete<void>(`/classes/${id}`),
+    registerStudent: (classId: string, studentId: string) =>axios.post<void>(`/classes/${classId}/${studentId}/register`)
 }
 
 const agent = {
     Students,
     Account,
     Professors,
-    Subjects
+    Subjects,
+    Classes
 }
 
 export default agent;

@@ -30,6 +30,7 @@ namespace Application.Classes
                 var classR = await _context.Classes
                 .Include(x => x.ClassProfessor)
                 .ThenInclude(x => x.AppUser)
+                .Include(x => x.Students)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 return Result<Class>.Success(classR);

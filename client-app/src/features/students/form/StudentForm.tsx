@@ -91,7 +91,8 @@ export default observer(function StudentForm() {
                 validationSchema={validationSchema}
                 enableReinitialize
                 initialValues={student}
-                onSubmit={values => handleFormSubmit(values)}>
+                onSubmit={values => handleFormSubmit(values)}
+            >
                 {({ handleSubmit, isValid, isSubmitting, dirty }) => (
                     <Form className="ui form" onSubmit={handleSubmit} autoComplete='off'>
                         <MyTextInput placeholder='Name' name='name' />

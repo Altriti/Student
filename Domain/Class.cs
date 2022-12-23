@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Domain
         public Guid Id { get; set; }
         public String ClassName { get; set; }
         public Professor ClassProfessor { get; set; }
+        public List<Student> Students { get; set; } = new List<Student>();
     }
 }
