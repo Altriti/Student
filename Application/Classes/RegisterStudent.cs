@@ -9,12 +9,12 @@ using Persistence;
 
 namespace Application.Classes
 {
-    public class Register
+    public class RegisterStudent
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Guid Id1 { get; set; }
-            public Guid Id2 { get; set; }
+            public Guid ClassId { get; set; }
+            public Guid StudentId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -27,9 +27,9 @@ namespace Application.Classes
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var classR = await _context.Classes.FirstOrDefaultAsync(x => x.Id == request.Id1);
+                var classR = await _context.Classes.FirstOrDefaultAsync(x => x.Id == request.ClassId);
 
-                var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == request.Id2);
+                var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == request.StudentId);
 
                 // if (student == null) return null;
 

@@ -4,7 +4,8 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { Button, Card, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store"
-import Register from "../Register";
+import RegisterProfessor from "../register/RegisterProfessor";
+import RegisterStudent from "../register/RegisterStudent";
 
 export default observer(function ClassDetails() {
     const { classesStore } = useStore();
@@ -34,13 +35,15 @@ export default observer(function ClassDetails() {
                 <Card.Content extra>
                     <Button.Group widths='2'>
                         <Button as={Link} to={`/edit/${classR.id}`} basic color="blue" content='Edit' />
-                        <Button onClick={()=>deleteClass(classR.id).then(()=>history.push('/'))} basic color="red" content='Delete' />
+                        <Button onClick={() => deleteClass(classR.id).then(() => history.push('/'))} basic color="red" content='Delete' />
                         {/* <Button as={Link} to='/classes' basic color="grey" content='Cancel' /> */}
                     </Button.Group>
                 </Card.Content>
             </Card>
 
-            <Register />
+            <RegisterStudent />
+
+            <RegisterProfessor classId={classR.id}/>
 
         </>
     )

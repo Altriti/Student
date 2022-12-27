@@ -27,6 +27,7 @@ namespace Application.Classes
                 return Result<List<Class>>.Success(await _context.Classes
                 .Include(x => x.ClassProfessor)
                 .Include(x => x.Students)
+                .Include(x => x.Professors)
                 .ToListAsync());
             }
         }

@@ -41,10 +41,16 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
 
-        [HttpPost("{id1}/{id2}/register")]
-        public async Task<IActionResult> Register(Guid id1, Guid id2)
+        [HttpPost("{classId}/{studentId}/registerStudent")]
+        public async Task<IActionResult> Register(Guid classId, Guid studentId)
         {
-            return HandleResult(await Mediator.Send(new Register.Command { Id1 = id1, Id2 = id2}));
+            return HandleResult(await Mediator.Send(new RegisterStudent.Command { ClassId = classId, StudentId = studentId }));
+        }
+
+        [HttpPost("{classId}/{professorId}/registerProfessor")]
+        public async Task<IActionResult> RegisterProfessor(Guid classId, Guid professorId)
+        {
+            return HandleResult(await Mediator.Send(new RegisterProfessor.Command { ClassId = classId, ProfessorId = professorId }));
         }
     }
 }

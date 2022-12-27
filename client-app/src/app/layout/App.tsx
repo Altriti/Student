@@ -22,7 +22,6 @@ import ProfessorForm from '../../features/professors/form/ProfessorForm';
 import SubjectDashboard from '../../features/subjects/dashboard/SubjectDashboard';
 import SubjectForm from '../../features/subjects/form/SubjectForm';
 import ClassDetails from '../../features/classR/details/ClassDetails';
-import Register from '../../features/classR/Register';
 import ClassForm from '../../features/classR/form/ClassForm';
 
 function App() {
@@ -61,7 +60,6 @@ function App() {
           <Route exact path='/subjects' component={SubjectDashboard} />
           <Route key={location.key} path={['/createSubject', `/subjects/edit/:id`]} component={SubjectForm} />
           <Route path='/subjectForm' component={SubjectForm} />
-          <Route path='/register' component={Register} />
           <Route path='/classes/:id' component={ClassDetails} />
           <Route key={location.key} path={['/createClass', `/edit/:id`]} component={ClassForm} />
           <Route component={NotFound} />

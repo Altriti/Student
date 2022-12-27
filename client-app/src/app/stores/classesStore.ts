@@ -105,26 +105,34 @@ export default class ClassesStore {
 
     deleteClass = async (id: string) => {
         this.loading = true;
-        try{
+        try {
             await agent.Classes.delete(id);
-            runInAction(()=>{
+            runInAction(() => {
                 this.classRegistry.delete(id);
                 this.loading = false;
             })
-        }catch(error){
+        } catch (error) {
             console.log(error);
-            runInAction(()=>{
+            runInAction(() => {
                 this.loading = false;
             })
         }
     }
 
-    resgisterStudent = async (classId: string, studentId: string) =>{
-        try{
+    resgisterStudent = async (classId: string, studentId: string) => {
+        try {
             await agent.Classes.registerStudent(classId, studentId);
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
 
+    }
+
+    registerProfessor = async (classId : string, professorId: string) => {
+        try{
+            await agent.Classes.registerProfessor(classId, professorId);
+        }catch(error){
+            console.log(error);
+        }
     }
 }

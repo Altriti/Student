@@ -31,6 +31,7 @@ namespace Application.Classes
                 .Include(x => x.ClassProfessor)
                 .ThenInclude(x => x.AppUser)
                 .Include(x => x.Students)
+                .Include(x => x.Professors)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 return Result<Class>.Success(classR);

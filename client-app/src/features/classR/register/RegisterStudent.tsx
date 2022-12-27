@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { Dropdown, Item } from "semantic-ui-react";
-import LoadingComponent from "../../app/layout/LoadingComponent";
-import { useStore } from "../../app/stores/store";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { useStore } from "../../../app/stores/store";
 
-export default observer(function Register() {
+export default observer(function RegisterStudent() {
     const { studentStore, classesStore } = useStore();
     const { studentsArr, studentRegistry, loadStudents, } = studentStore;
     const { resgisterStudent, selectedClass: classR, loadingInitial } = classesStore;
