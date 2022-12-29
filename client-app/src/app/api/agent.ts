@@ -112,7 +112,8 @@ const Classes = {
     update: (classR: Class) => axios.put<void>(`/classes/${classR.id}`, classR),
     delete: (id: string) => axios.delete<void>(`/classes/${id}`),
     registerStudent: (classId: string, studentId: string) => axios.post<void>(`/classes/${classId}/${studentId}/registerStudent`),
-    registerProfessor: (classId: string, professorId: string) => axios.post<void>(`/classes/${classId}/${professorId}/registerProfessor`)
+    registerProfessor: (classId: string, professorId: string) => axios.post<void>(`/classes/${classId}/${professorId}/registerProfessor`),
+    registerSubject: (classId: string, subjectId: string) => axios.post<void>(`/classes/${classId}/${subjectId}/registerSubject`)
 }
 
 const agent = {

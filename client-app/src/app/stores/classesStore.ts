@@ -135,4 +135,12 @@ export default class ClassesStore {
             console.log(error);
         }
     }
+
+    registerSubject = async (classId : string, subjectId: string) => {
+        try{
+            await agent.Classes.registerSubject(classId, subjectId);
+        }catch(error){
+            console.log(error);
+        }
+    }
 }

@@ -52,5 +52,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new RegisterProfessor.Command { ClassId = classId, ProfessorId = professorId }));
         }
+
+        [HttpPost("{classId}/{subjectId}/registerSubject")]
+        public async Task<IActionResult> RegisterSubject(Guid classId, String SubjectId)
+        {
+            return HandleResult(await Mediator.Send(new RegisterSubject.Command { ClassId = classId, SubjectId = SubjectId }));
+        }
     }
 }

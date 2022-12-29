@@ -23,6 +23,7 @@ import SubjectDashboard from '../../features/subjects/dashboard/SubjectDashboard
 import SubjectForm from '../../features/subjects/form/SubjectForm';
 import ClassDetails from '../../features/classR/details/ClassDetails';
 import ClassForm from '../../features/classR/form/ClassForm';
+import RegisterSubject from '../../features/classR/register/RegisterSubject';
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
           <Route key={location.key} path={['/createSubject', `/subjects/edit/:id`]} component={SubjectForm} />
           <Route path='/subjectForm' component={SubjectForm} />
           <Route path='/classes/:id' component={ClassDetails} />
+          <Route path='/registerSubject' component={RegisterSubject} />
           <Route key={location.key} path={['/createClass', `/edit/:id`]} component={ClassForm} />
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 

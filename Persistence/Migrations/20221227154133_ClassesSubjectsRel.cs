@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class ClassesAdded : Migration
+    public partial class ClassesSubjectsRel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,18 +49,6 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subjects",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subjects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,6 +158,19 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Classes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ClassName = table.Column<string>(type: "TEXT", nullable: true),
+                    ClassProfessorId = table.Column<Guid>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Professors",
                 columns: table => new
                 {
@@ -183,7 +184,8 @@ namespace Persistence.Migrations
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     Gender = table.Column<string>(type: "TEXT", nullable: true),
                     Nationality = table.Column<string>(type: "TEXT", nullable: true),
-                    AppUserId = table.Column<string>(type: "TEXT", nullable: true)
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    ClassId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,6 +194,11 @@ namespace Persistence.Migrations
                         name: "FK_Professors_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Professors_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
                         principalColumn: "Id");
                 });
 
@@ -216,7 +223,8 @@ namespace Persistence.Migrations
                     ParentCity = table.Column<string>(type: "TEXT", nullable: true),
                     ParentState = table.Column<string>(type: "TEXT", nullable: true),
                     IsConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AppUserId = table.Column<string>(type: "TEXT", nullable: true)
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    ClassId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -226,23 +234,28 @@ namespace Persistence.Migrations
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Students_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Classes",
+                name: "Subjects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClassName = table.Column<string>(type: "TEXT", nullable: true),
-                    ClassProfessorId = table.Column<Guid>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    ClassId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.PrimaryKey("PK_Subjects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Classes_Professors_ClassProfessorId",
-                        column: x => x.ClassProfessorId,
-                        principalTable: "Professors",
+                        name: "FK_Subjects_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
                         principalColumn: "Id");
                 });
 
@@ -294,13 +307,43 @@ namespace Persistence.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Professors_ClassId",
+                table: "Professors",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_AppUserId",
                 table: "Students",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_ClassId",
+                table: "Students",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subjects_ClassId",
+                table: "Subjects",
+                column: "ClassId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Classes_Professors_ClassProfessorId",
+                table: "Classes",
+                column: "ClassProfessorId",
+                principalTable: "Professors",
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Professors_AspNetUsers_AppUserId",
+                table: "Professors");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Classes_Professors_ClassProfessorId",
+                table: "Classes");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -317,9 +360,6 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Classes");
-
-            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
@@ -329,10 +369,13 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Professors");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Classes");
         }
     }
 }

@@ -6,6 +6,7 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store"
 import RegisterProfessor from "../register/RegisterProfessor";
 import RegisterStudent from "../register/RegisterStudent";
+import RegisterSubject from "../register/RegisterSubject";
 
 export default observer(function ClassDetails() {
     const { classesStore } = useStore();
@@ -43,7 +44,9 @@ export default observer(function ClassDetails() {
 
             <RegisterStudent />
 
-            <RegisterProfessor classId={classR.id}/>
+            <RegisterProfessor classId={classR.id} />
+
+            <RegisterSubject />
 
         </>
     )

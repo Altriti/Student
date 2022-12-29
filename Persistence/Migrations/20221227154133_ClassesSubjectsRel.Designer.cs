@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221221133227_ClassesStudentsRel")]
-    partial class ClassesStudentsRel
+    [Migration("20221227154133_ClassesSubjectsRel")]
+    partial class ClassesSubjectsRel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,6 +123,9 @@ namespace Persistence.Migrations
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ClassId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
@@ -150,6 +153,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("Professors");
                 });
@@ -228,10 +233,15 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ClassId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("Subjects");
                 });
@@ -379,6 +389,10 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("AppUserId");
 
+                    b.HasOne("Domain.Class", null)
+                        .WithMany("Professors")
+                        .HasForeignKey("ClassId");
+
                     b.Navigation("AppUser");
                 });
 
@@ -393,6 +407,13 @@ namespace Persistence.Migrations
                         .HasForeignKey("ClassId");
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Domain.Subject", b =>
+                {
+                    b.HasOne("Domain.Class", null)
+                        .WithMany("Subjects")
+                        .HasForeignKey("ClassId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -448,7 +469,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Class", b =>
                 {
+                    b.Navigation("Professors");
+
                     b.Navigation("Students");
+
+                    b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618
         }

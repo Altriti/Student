@@ -28,6 +28,7 @@ namespace Application.Classes
                 .Include(x => x.ClassProfessor)
                 .Include(x => x.Students)
                 .Include(x => x.Professors)
+                .Include(x => x.Subjects)
                 .ToListAsync());
             }
         }
