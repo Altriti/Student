@@ -12,7 +12,7 @@ namespace Application.Classes
         public Guid Id { get; set; }
         public String ClassName { get; set; }
         public Professor ClassProfessor { get; set; }
-        public List<Student> Students { get; set; } = new List<Student>();
+        public ICollection<Student> Students { get; set; }
         public ICollection<Profile> Professors { get; set; }
         public ICollection<SubjectDto> Subjects { get; set; }
     }

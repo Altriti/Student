@@ -53,8 +53,8 @@ namespace API
             });
             services.AddApplicationServices(_config);
             services.AddIdentityServices(_config);
-            services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            // services.AddControllers().AddJsonOptions(x =>
+            //     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
