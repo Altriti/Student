@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class ClassProfessorEntity : Migration
+    public partial class ClassSubjectRelFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,6 +49,18 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,6 +238,30 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassSubjects",
+                columns: table => new
+                {
+                    ClassId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SubjectId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassSubjects", x => new { x.ClassId, x.SubjectId });
+                    table.ForeignKey(
+                        name: "FK_ClassSubjects_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassSubjects_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -259,24 +295,6 @@ namespace Persistence.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Students_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subjects",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    ClassId = table.Column<Guid>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subjects", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Subjects_Classes_ClassId",
                         column: x => x.ClassId,
                         principalTable: "Classes",
                         principalColumn: "Id");
@@ -330,6 +348,11 @@ namespace Persistence.Migrations
                 column: "ProfessorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClassSubjects_SubjectId",
+                table: "ClassSubjects",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Professors_AppUserId",
                 table: "Professors",
                 column: "AppUserId");
@@ -342,11 +365,6 @@ namespace Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Students_ClassId",
                 table: "Students",
-                column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subjects_ClassId",
-                table: "Subjects",
                 column: "ClassId");
         }
 
@@ -371,13 +389,16 @@ namespace Persistence.Migrations
                 name: "ClassProfessors");
 
             migrationBuilder.DropTable(
+                name: "ClassSubjects");
+
+            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "Subjects");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Subjects");
 
             migrationBuilder.DropTable(
                 name: "Classes");

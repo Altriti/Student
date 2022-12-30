@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
+using Domain;
 using MediatR;
 using Persistence;
 
@@ -30,7 +31,13 @@ namespace Application.Classes
 
                 var subject = await _context.Subjects.FindAsync(request.SubjectId);
 
-                classR.Subjects.Add(subject);
+                var classSubject = new ClassSubject
+                {
+                    Class = classR,
+                    Subject = subject
+                };
+
+                _context.ClassSubjects.Add(classSubject);
 
                 var result = await _context.SaveChangesAsync() > 0;
 

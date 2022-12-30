@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221229131327_ClassProfessorEntity")]
-    partial class ClassProfessorEntity
+    [Migration("20221230122452_ClassSubjectRelFix")]
+    partial class ClassSubjectRelFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,6 +124,21 @@ namespace Persistence.Migrations
                     b.HasIndex("ProfessorId");
 
                     b.ToTable("ClassProfessors");
+                });
+
+            modelBuilder.Entity("Domain.ClassSubject", b =>
+                {
+                    b.Property<Guid>("ClassId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ClassId", "SubjectId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("ClassSubjects");
                 });
 
             modelBuilder.Entity("Domain.Professor", b =>
@@ -243,15 +258,10 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ClassId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
 
                     b.ToTable("Subjects");
                 });
@@ -412,6 +422,25 @@ namespace Persistence.Migrations
                     b.Navigation("Professor");
                 });
 
+            modelBuilder.Entity("Domain.ClassSubject", b =>
+                {
+                    b.HasOne("Domain.Class", "Class")
+                        .WithMany("Subjects")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Subject", "Subject")
+                        .WithMany("Classes")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("Domain.Professor", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
@@ -432,13 +461,6 @@ namespace Persistence.Migrations
                         .HasForeignKey("ClassId");
 
                     b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("Domain.Subject", b =>
-                {
-                    b.HasOne("Domain.Class", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("ClassId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -502,6 +524,11 @@ namespace Persistence.Migrations
                 });
 
             modelBuilder.Entity("Domain.Professor", b =>
+                {
+                    b.Navigation("Classes");
+                });
+
+            modelBuilder.Entity("Domain.Subject", b =>
                 {
                     b.Navigation("Classes");
                 });

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Application.Classes
 {
-    public class Subject
+    public class SubjectDto
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public ICollection<ClassSubject> Classes { get; set; }
     }
 }

@@ -21,6 +21,12 @@ namespace Application.Core
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Professor.Name))
                 .ForMember(d => d.Username, o => o.MapFrom(s => s.Professor.Email))
                 .ForMember(d => d.Bio, o => o.MapFrom(s => s.Professor.Nationality));
+            // CreateMap<ClassSubject, Subject>();
+            //     .ForMember(d => d.Id, o => o.MapFrom(s => s.SubjectId))
+            //     .ForMember(d => d.Name, o => o.MapFrom(s => s.Subject.Name));
+            CreateMap<ClassSubject, SubjectDto>()
+                .ForMember(s => s.Id, o => o.MapFrom(c => c.SubjectId))
+                .ForMember(s => s.Name, o => o.MapFrom(c => c.Subject.Name));
         }
     }
 }

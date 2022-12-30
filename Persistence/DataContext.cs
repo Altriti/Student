@@ -19,6 +19,7 @@ namespace Persistence
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<ClassProfessor> ClassProfessors { get; set; }
+        public DbSet<ClassSubject> ClassSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,6 +36,19 @@ namespace Persistence
                 .HasOne(c => c.Professor)
                 .WithMany(p => p.Classes)
                 .HasForeignKey(cc => cc.ProfessorId);
+
+
+            builder.Entity<ClassSubject>(x => x.HasKey(cs => new {cs.ClassId, cs.SubjectId}));
+
+            builder.Entity<ClassSubject>()
+                .HasOne(c => c.Class)//Class of ClassSubject
+                .WithMany(s => s.Subjects)//Subjects of Class
+                .HasForeignKey(cc => cc.ClassId);//ClassId of ClassSubject
+
+            builder.Entity<ClassSubject>()
+                .HasOne(c => c.Subject)//Subject of ClassSubject
+                .WithMany(s => s.Classes)//Class of Subject
+                .HasForeignKey(cc => cc.SubjectId);//SubjectId of ClassSubjevvt
         }
     }
 }
