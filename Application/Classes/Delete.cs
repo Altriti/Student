@@ -27,13 +27,13 @@ namespace Application.Classes
             {
                 var classR = await _context.Classes.FindAsync(request.Id);
 
-                if(classR == null) return null;
+                if (classR == null) return null;
 
                 _context.Classes.Remove(classR);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
-                if(!result) return Result<Unit>.Failure("Failed to delete class");
+                if (!result) return Result<Unit>.Failure("Failed to delete class");
 
                 return Result<Unit>.Success(Unit.Value);
             }

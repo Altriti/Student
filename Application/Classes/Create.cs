@@ -38,11 +38,12 @@ namespace Application.Classes
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user =  _context.Users.FirstOrDefault(x => x.UserName == _userAccessor.GetUsername());
+                var user = _context.Users.FirstOrDefault(x => x.UserName == _userAccessor.GetUsername());
 
                 var CProfessor = _context.Professors.FirstOrDefault(x => x.AppUserId == user.Id);
 
-                var classR = new Class{
+                var classR = new Class
+                {
                     ClassName = request.Class.ClassName,
                     ClassProfessor = CProfessor
                 };

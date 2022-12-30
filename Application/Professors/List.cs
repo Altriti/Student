@@ -24,7 +24,11 @@ namespace Application.Professors
 
             public async Task<Result<List<Professor>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Professor>>.Success(await _context.Professors.Include(x => x.AppUser).ToListAsync(cancellationToken));
+                var professors = await _context.Professors
+                    .Include(x => x.AppUser)
+                    .Include(x => x.Classes)
+                    .ToListAsync(cancellationToken);
+                return Result<List<Professor>>.Success(professors);
             }
         }
     }

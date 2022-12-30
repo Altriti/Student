@@ -50,6 +50,7 @@ namespace API.Controllers
         [HttpPost("{classId}/{professorId}/registerProfessor")]
         public async Task<IActionResult> RegisterProfessor(Guid classId, Guid professorId)
         {
+            // return Ok();
             return HandleResult(await Mediator.Send(new RegisterProfessor.Command { ClassId = classId, ProfessorId = professorId }));
         }
 

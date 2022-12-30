@@ -19,5 +19,6 @@ namespace Domain
         public string Nationality { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
+        public ICollection<ClassProfessor> Classes { get; set; }
     }
 }

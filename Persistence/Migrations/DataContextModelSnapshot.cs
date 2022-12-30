@@ -109,6 +109,21 @@ namespace Persistence.Migrations
                     b.ToTable("Classes");
                 });
 
+            modelBuilder.Entity("Domain.ClassProfessor", b =>
+                {
+                    b.Property<Guid>("ClassId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProfessorId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ClassId", "ProfessorId");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.ToTable("ClassProfessors");
+                });
+
             modelBuilder.Entity("Domain.Professor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -119,9 +134,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("ClassId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -151,8 +163,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
-
-                    b.HasIndex("ClassId");
 
                     b.ToTable("Professors");
                 });
@@ -381,15 +391,30 @@ namespace Persistence.Migrations
                     b.Navigation("ClassProfessor");
                 });
 
+            modelBuilder.Entity("Domain.ClassProfessor", b =>
+                {
+                    b.HasOne("Domain.Class", "Class")
+                        .WithMany("Professors")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Professor", "Professor")
+                        .WithMany("Classes")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Professor");
+                });
+
             modelBuilder.Entity("Domain.Professor", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserId");
-
-                    b.HasOne("Domain.Class", null)
-                        .WithMany("Professors")
-                        .HasForeignKey("ClassId");
 
                     b.Navigation("AppUser");
                 });
@@ -472,6 +497,11 @@ namespace Persistence.Migrations
                     b.Navigation("Students");
 
                     b.Navigation("Subjects");
+                });
+
+            modelBuilder.Entity("Domain.Professor", b =>
+                {
+                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

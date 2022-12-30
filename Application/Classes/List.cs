@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,24 +14,25 @@ namespace Application.Classes
 {
     public class List
     {
-        public class Query : IRequest<Result<List<Class>>> { }
+        public class Query : IRequest<Result<List<ClassDto>>> { }
 
-        public class Handler : IRequestHandler<Query, Result<List<Class>>>
+        public class Handler : IRequestHandler<Query, Result<List<ClassDto>>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
+                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<Result<List<Class>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ClassDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Class>>.Success(await _context.Classes
-                .Include(x => x.ClassProfessor)
-                .Include(x => x.Students)
-                .Include(x => x.Professors)
-                .Include(x => x.Subjects)
-                .ToListAsync());
+                var classes = await _context.Classes
+                    .ProjectTo<ClassDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+
+                return Result<List<ClassDto>>.Success(classes);
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -31,7 +32,13 @@ namespace Application.Classes
 
                 var professor = await _context.Professors.FirstOrDefaultAsync(x => x.Id == request.ProfessorId);
 
-                classR.Professors.Add(professor);
+                var classProfessor = new ClassProfessor
+                {
+                    Class = classR,
+                    Professor = professor
+                };
+
+                _context.ClassProfessors.Add(classProfessor);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
