@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221230122452_ClassSubjectRelFix")]
+    [Migration("20230107112426_ClassSubjectRelFix")]
     partial class ClassSubjectRelFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

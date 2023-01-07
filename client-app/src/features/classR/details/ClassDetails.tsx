@@ -32,6 +32,24 @@ export default observer(function ClassDetails() {
                         <div>{classR.id}</div>
                         <div>{classR.className}</div>
                     </Card.Description>
+                    <Card.Description>
+                        <div>{classR.classProfessor?.name}</div>
+                    </Card.Description>
+                    <Card.Description>
+                        {classR.students.map(student => (
+                            <div>{student.name}</div>
+                        ))}
+                    </Card.Description>
+                    <Card.Description>
+                        {classR.professors.map(professors => (
+                            <div>{professors.displayName}</div>
+                        ))}
+                    </Card.Description>
+                    <Card.Description>
+                        {classR.subjects.map(subject => (
+                            <div>{subject.name}</div>
+                        ))}
+                    </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                     <Button.Group widths='2'>

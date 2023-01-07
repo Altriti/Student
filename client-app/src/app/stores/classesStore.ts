@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { Class } from "../models/class";
+import { Class, ClassFormValues } from "../models/class";
 
 export default class ClassesStore {
     classRegistry = new Map<string, Class>();
@@ -67,39 +67,35 @@ export default class ClassesStore {
         return this.classRegistry.get(id);
     }
 
-    createClass = async (classR: Class) => {
-        runInAction(() => {
-            this.loading = true;
-        });
+    createClass = async (classR: ClassFormValues) => {
         try {
             await agent.Classes.create(classR);
-            this.setClass(classR)
+            const newClassR = new Class(classR);
+            newClassR.subjects = [];
+            newClassR.classProfessor = null;
+            newClassR.students = [];
+            newClassR.professors = [];
+            this.setClass(newClassR);
             runInAction(() => {
-                this.loading = false
-                this.selectedClass = classR;
+                this.selectedClass = newClassR;
             });
         } catch (error) {
             console.log(error);
-            runInAction(() => {
-                this.loading = false
-            });
         }
     }
 
-    updateClass = async (classR: Class) => {
-        this.loading = true;
+    updateClass = async (classR: ClassFormValues) => {
         try {
             await agent.Classes.update(classR);
             runInAction(() => {
-                this.setClass(classR);
-                this.selectedClass = classR;
-                this.loading = false;
-            })
+                if (classR.id) {
+                    let updatedClassR = { ...this.getClass(classR.id), ...classR };
+                    this.classRegistry.set(classR.id, updatedClassR as Class);
+                    this.selectedClass = updatedClassR as Class;
+                };
+            });
         } catch (error) {
             console.log(error);
-            runInAction(() => {
-                this.loading = false;
-            })
         }
     }
 
@@ -128,18 +124,18 @@ export default class ClassesStore {
 
     }
 
-    registerProfessor = async (classId : string, professorId: string) => {
-        try{
+    registerProfessor = async (classId: string, professorId: string) => {
+        try {
             await agent.Classes.registerProfessor(classId, professorId);
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
 
-    registerSubject = async (classId : string, subjectId: string) => {
-        try{
+    registerSubject = async (classId: string, subjectId: string) => {
+        try {
             await agent.Classes.registerSubject(classId, subjectId);
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }

@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { AppUser } from "../models/appUser";
-import { Class } from "../models/class";
+import { Class, ClassFormValues } from "../models/class";
 import { Professor } from "../models/professor";
 import { Student } from "../models/student";
 import { Subject } from "../models/subject";
@@ -108,8 +108,8 @@ const Subjects = {
 const Classes = {
     list: () => requests.get<Class[]>('/classes'),
     details: (id: string) => requests.get<Class>(`/classes/${id}`),
-    create: (classR: Class) => requests.post<void>(`/classes`, classR),
-    update: (classR: Class) => axios.put<void>(`/classes/${classR.id}`, classR),
+    create: (classR: ClassFormValues) => requests.post<void>(`/classes`, classR),
+    update: (classR: ClassFormValues) => axios.put<void>(`/classes/${classR.id}`, classR),
     delete: (id: string) => axios.delete<void>(`/classes/${id}`),
     registerStudent: (classId: string, studentId: string) => axios.post<void>(`/classes/${classId}/${studentId}/registerStudent`),
     registerProfessor: (classId: string, professorId: string) => axios.post<void>(`/classes/${classId}/${professorId}/registerProfessor`),
