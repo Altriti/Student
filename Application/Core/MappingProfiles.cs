@@ -51,6 +51,8 @@ namespace Application.Core
 
             CreateMap<GradeSubject, StudentGradesDto>();
 
+            CreateMap<GradeSubject, GradeSubject>();
+
         }
     }
 }
