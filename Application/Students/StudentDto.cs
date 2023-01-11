@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.StudentGrades;
+using Domain;
 
-namespace Domain
+namespace Application.Students
 {
-    public class Student
+    public class StudentDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -27,7 +29,6 @@ namespace Domain
         public bool IsConfirmed { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
-        public virtual ICollection<GradeSubject> Grade { get; set; }
-
+        public virtual ICollection<StudentGradesDto> Grade { get; set; }//grades
     }
 }

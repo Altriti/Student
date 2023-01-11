@@ -14,6 +14,6 @@ namespace Application.Classes
         public Professor ClassProfessor { get; set; }
         public ICollection<Student> Students { get; set; }
         public ICollection<Profile> Professors { get; set; }
-        public ICollection<SubjectDto> Subjects { get; set; }
+        public ICollection<SubjectDto.SubjectDto> Subjects { get; set; }
     }
 }

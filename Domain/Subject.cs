@@ -10,5 +10,6 @@ namespace Domain
         public string Id { get; set; }
         public string Name { get; set; }
         public ICollection<ClassSubject> Classes { get; set; }
+        public ICollection<GradeSubject> Grades { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Classes;
 using Application.Professors;
+using Application.StudentGrades;
+using Application.Students;
 using AutoMapper;
 using Domain;
 
@@ -31,11 +33,23 @@ namespace Application.Core
             //     .ForMember(d => d.Id, o => o.MapFrom(s => s.SubjectId))
             //     .ForMember(d => d.Name, o => o.MapFrom(s => s.Subject.Name));
 
-            CreateMap<ClassSubject, SubjectDto>()
+            CreateMap<ClassSubject, SubjectDto.SubjectDto>()
                 .ForMember(s => s.Id, o => o.MapFrom(c => c.SubjectId))
                 .ForMember(s => s.Name, o => o.MapFrom(c => c.Subject.Name));
 
             CreateMap<Professor, ProfessorDto>();
+
+            CreateMap<GradeSubject, GradeSubjectDto>();
+            CreateMap<Student, Profiles.Profile>()
+                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Name))
+                .ForMember(d => d.Username, o => o.MapFrom(s => s.Email))
+                .ForMember(d => d.Bio, o => o.MapFrom(s => s.Nationality));
+            
+            CreateMap<Student, StudentDto>();
+
+            CreateMap<Subject, SubjectDto.SubjectDto>();
+
+            CreateMap<GradeSubject, StudentGradesDto>();
 
         }
     }

@@ -20,6 +20,7 @@ namespace Persistence
         public DbSet<Class> Classes { get; set; }
         public DbSet<ClassProfessor> ClassProfessors { get; set; }
         public DbSet<ClassSubject> ClassSubjects { get; set; }
+        public DbSet<GradeSubject> Grades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

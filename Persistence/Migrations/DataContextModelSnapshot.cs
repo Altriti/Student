@@ -139,6 +139,33 @@ namespace Persistence.Migrations
                     b.ToTable("ClassSubjects");
                 });
 
+            modelBuilder.Entity("Domain.GradeSubject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("MainGrade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Grades");
+                });
+
             modelBuilder.Entity("Domain.Professor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -439,6 +466,23 @@ namespace Persistence.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("Domain.GradeSubject", b =>
+                {
+                    b.HasOne("Domain.Student", "Student")
+                        .WithMany("Grade")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Subject", "Subject")
+                        .WithMany("Grades")
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("Domain.Professor", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
@@ -526,9 +570,16 @@ namespace Persistence.Migrations
                     b.Navigation("Classes");
                 });
 
+            modelBuilder.Entity("Domain.Student", b =>
+                {
+                    b.Navigation("Grade");
+                });
+
             modelBuilder.Entity("Domain.Subject", b =>
                 {
                     b.Navigation("Classes");
+
+                    b.Navigation("Grades");
                 });
 #pragma warning restore 612, 618
         }
