@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -15,6 +16,15 @@ namespace Application.StudentGrades
         {
             public GradeSubject Grade { get; set; }
         }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Grade).SetValidator(new GradeValidator());
+            }
+        }
+
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
@@ -29,7 +39,7 @@ namespace Application.StudentGrades
 
                 var result = await _context.SaveChangesAsync() > 0;
 
-                if(!result) return Result<Unit>.Failure("Failed to set grade");
+                if (!result) return Result<Unit>.Failure("Failed to set grade");
 
                 return Result<Unit>.Success(Unit.Value);
             }

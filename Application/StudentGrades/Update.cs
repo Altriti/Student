@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -15,6 +16,14 @@ namespace Application.StudentGrades
         public class Command : IRequest<Result<Unit>>
         {
             public GradeSubject Grade { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Grade).SetValidator(new GradeValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
