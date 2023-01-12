@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import ClassesStore from "./classesStore";
 import CommonStore from "./commonStore";
+import GradesStore from "./gradesStore";
 import ModalStore from "./modalStore";
 import professorStore from "./professorStore";
 import StudentStore from "./studentStore";
@@ -14,7 +15,8 @@ interface Store {
     modalStore: ModalStore;
     professorStore: professorStore;
     subjectStore: subjectStore;
-    classesStore: ClassesStore
+    classesStore: ClassesStore;
+    gradesStore: GradesStore;
 }
 
 export const store: Store = {
@@ -24,7 +26,8 @@ export const store: Store = {
     modalStore: new ModalStore(),
     professorStore: new professorStore(),
     subjectStore: new subjectStore(),
-    classesStore: new ClassesStore()
+    classesStore: new ClassesStore(),
+    gradesStore: new GradesStore()
 }
 
 export const StoreContext = createContext(store);

@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { AppUser } from "../models/appUser";
 import { Class, ClassFormValues } from "../models/class";
+import { Grade } from "../models/grade";
 import { Professor } from "../models/professor";
 import { Student } from "../models/student";
 import { Subject } from "../models/subject";
@@ -116,12 +117,17 @@ const Classes = {
     registerSubject: (classId: string, subjectId: string) => axios.post<void>(`/classes/${classId}/${subjectId}/registerSubject`)
 }
 
+const Grades = {
+    list: () => requests.get<Grade[]>('/studentgrades')
+}
+
 const agent = {
     Students,
     Account,
     Professors,
     Subjects,
-    Classes
+    Classes,
+    Grades
 }
 
 export default agent;

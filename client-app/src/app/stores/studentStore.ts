@@ -77,8 +77,6 @@ export default class StudentStore {
             runInAction(() => {
                 this.studentRegistry.set(student.id, student);
                 this.selectedStudent = student;
-                this.editMode = false;
-                this.loading = false;
             })
         } catch (error) {
             console.log(error);
@@ -95,8 +93,6 @@ export default class StudentStore {
             runInAction(() => {
                 this.studentRegistry.set(student.id, student);
                 this.selectedStudent = student;
-                this.editMode = false;
-                this.loading = false;
             })
         } catch (error) {
             console.log(error);
