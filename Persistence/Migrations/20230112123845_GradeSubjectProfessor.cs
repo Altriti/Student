@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class StudentGradesRel : Migration
+    public partial class GradeSubjectProfessor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -308,11 +308,17 @@ namespace Persistence.Migrations
                     StudentId = table.Column<Guid>(type: "TEXT", nullable: false),
                     SubjectId = table.Column<string>(type: "TEXT", nullable: true),
                     Grade = table.Column<int>(type: "INTEGER", nullable: false),
-                    MainGrade = table.Column<bool>(type: "INTEGER", nullable: false)
+                    MainGrade = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ProfessorId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Grades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Grades_Professors_ProfessorId",
+                        column: x => x.ProfessorId,
+                        principalTable: "Professors",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Grades_Students_StudentId",
                         column: x => x.StudentId,
@@ -377,6 +383,11 @@ namespace Persistence.Migrations
                 name: "IX_ClassSubjects_SubjectId",
                 table: "ClassSubjects",
                 column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_ProfessorId",
+                table: "Grades",
+                column: "ProfessorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grades_StudentId",

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +29,11 @@ namespace Application.StudentGrades
             public async Task<Result<List<GradeSubjectDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var grades = await _context.Grades
-                .Include(x => x.Student)
-                .Include(x => x.Subject)
+                .ProjectTo<GradeSubjectDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-                var gradesToReturn = _mapper.Map<List<GradeSubjectDto>>(grades);
-                return Result<List<GradeSubjectDto>>.Success(gradesToReturn);
+                
+                return Result<List<GradeSubjectDto>>.Success(grades);
             }
         }
     }

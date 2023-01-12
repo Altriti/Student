@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230110140912_StudentGradesRel")]
-    partial class StudentGradesRel
+    [Migration("20230112123845_GradeSubjectProfessor")]
+    partial class GradeSubjectProfessor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -153,6 +153,9 @@ namespace Persistence.Migrations
                     b.Property<bool>("MainGrade")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("ProfessorId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("StudentId")
                         .HasColumnType("TEXT");
 
@@ -160,6 +163,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProfessorId");
 
                     b.HasIndex("StudentId");
 
@@ -470,6 +475,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.GradeSubject", b =>
                 {
+                    b.HasOne("Domain.Professor", "Professor")
+                        .WithMany()
+                        .HasForeignKey("ProfessorId");
+
                     b.HasOne("Domain.Student", "Student")
                         .WithMany("Grade")
                         .HasForeignKey("StudentId")
@@ -479,6 +488,8 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Subject", "Subject")
                         .WithMany("Grades")
                         .HasForeignKey("SubjectId");
+
+                    b.Navigation("Professor");
 
                     b.Navigation("Student");
 

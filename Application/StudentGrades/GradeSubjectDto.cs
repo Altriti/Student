@@ -16,5 +16,6 @@ namespace Application.StudentGrades
         public SubjectDto.SubjectDto Subject { get; set; }
         public int Grade { get; set; }
         public bool MainGrade { get; set; }
+        public Professor Professor { get; set; }
     }
 }
