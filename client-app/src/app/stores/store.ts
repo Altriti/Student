@@ -30,7 +30,7 @@ export const store: Store = {
     gradesStore: new GradesStore()
 }
 
-export const StoreContext = createContext(store);
+export const StoreContext = createContext(store);//createContext creates a context object and lets us use the store in whole application
 
 export function useStore(){
     return useContext(StoreContext);

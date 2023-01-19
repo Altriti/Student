@@ -14,7 +14,7 @@ namespace Application.StudentGrades
             RuleFor(x => x.StudentId).NotEmpty();
             RuleFor(x => x.SubjectId).NotEmpty();
             RuleFor(x => x.Grade).NotEmpty();
-            RuleFor(x => x.MainGrade).NotEmpty();
+            RuleFor(x => x.MainGrade).Equals(false);
         }
     }
 }

@@ -6,6 +6,8 @@ interface Props {
     name: string;
     type?: string;
     label?: string;
+    checked?: boolean;
+    onClick?:(e:React.MouseEvent<HTMLInputElement>) => void;
 }
 
 export default function MyTextInput(props: Props) {
@@ -13,7 +15,7 @@ export default function MyTextInput(props: Props) {
     return (
         <Form.Field error={meta.touched && !!meta.error}>
             <label>{props.label}</label>
-            <input {...field}{...props} />
+            <input {...field}{...props} checked={props.checked} />
             {meta.touched && meta.error ? (
                 <Label basic color='red'>{meta.error}</Label>
             ) : null}

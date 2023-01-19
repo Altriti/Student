@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { AppUser } from "../models/appUser";
 import { Class, ClassFormValues } from "../models/class";
-import { Grade } from "../models/grade";
+import { Grade, GradeFormValues } from "../models/grade";
 import { Professor } from "../models/professor";
 import { Student } from "../models/student";
 import { Subject } from "../models/subject";
@@ -118,7 +118,11 @@ const Classes = {
 }
 
 const Grades = {
-    list: () => requests.get<Grade[]>('/studentgrades')
+    list: () => requests.get<Grade[]>('/studentGrades'),
+    details: (id: string) => requests.get<Grade>(`/studentGrades/${id}`),
+    create: (grade: GradeFormValues) => requests.post<void>('/studentgrades', grade),
+    update: (grade: GradeFormValues) => requests.put<void>(`/studentgrades/${grade.id}`, grade),
+    delete: (id: string) => requests.del<void>(`/studentgrades/${id}`)
 }
 
 const agent = {
