@@ -46,14 +46,11 @@ namespace Application.Students
 
                 // _context.Students.Add(request.Student);
 
-                char n = request.Student.Name[0];
-                char s = request.Student.Surname[0];
-                char id = request.Student.Id.ToString()[0];
-                char id2 = request.Student.Id.ToString()[1];
-                char id3 = request.Student.Id.ToString()[2];
-                string pf = "@student.com";
-                string UEmail = n.ToString().ToLower() + s.ToString().ToLower() +
-                    id.ToString().ToLower() + id2.ToString().ToLower() + id3.ToString().ToLower() + pf;
+                string UEmail = (request.Student.Name[0].ToString()
+                    + request.Student.Surname[0].ToString()
+                    + request.Student.Id.ToString().Substring(0, 3))
+                    .ToLower()
+                    + "@student.com";
 
 
                 if (await _userManager.Users.AnyAsync(u => u.NormalizedEmail == UEmail.ToUpper()))

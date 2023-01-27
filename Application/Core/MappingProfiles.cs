@@ -6,6 +6,7 @@ using Application.Classes;
 using Application.Professors;
 using Application.StudentGrades;
 using Application.Students;
+using Application.Timetables;
 using AutoMapper;
 using Domain;
 
@@ -52,6 +53,13 @@ namespace Application.Core
             CreateMap<GradeSubject, StudentGradesDto>();
 
             CreateMap<GradeSubject, GradeSubject>();
+
+            CreateMap<Timetable, TimetableDto>();
+            CreateMap<WeekDaySchedule, WeekDayScheduleDto>();
+            CreateMap<Schedule, ScheduleDto>();
+            CreateMap<TimetableDto, Timetable>();
+            CreateMap<WeekDayScheduleDto, WeekDaySchedule>();
+            CreateMap<ScheduleDto, Schedule>();
 
         }
     }

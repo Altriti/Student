@@ -111,7 +111,8 @@ namespace Persistence
 
 
             if (context.Students.Any() && context.Professors.Any()
-                && context.Subjects.Any() && context.Classes.Any()) return;
+                && context.Subjects.Any() && context.Classes.Any()
+                && context.Timetables.Any()) return;
 
             var students = new List<Student>
             {
@@ -250,10 +251,54 @@ namespace Persistence
                 }
             };
 
+            var timetables = new Timetable
+            {
+                Id = "2023-2024-10",
+                Class = classes[0],
+                WeekDaySchedules = new List<WeekDaySchedule>
+                    {
+                        new WeekDaySchedule
+                        {
+                            Day = DayOfWeek.Monday,
+                            Schedules = new List<Schedule>
+                            {
+                                new Schedule
+                                {
+                                    Subject = subjects[0],
+                                    Time = "08:00-08:45"
+                                },
+                                new Schedule
+                                {
+                                    Subject = subjects[1],
+                                    Time = "09:00 - 09:45"
+                                }
+                            }
+                        },
+                        new WeekDaySchedule
+                        {
+                            Day = DayOfWeek.Tuesday,
+                            Schedules = new List<Schedule>
+                            {
+                                new Schedule
+                                {
+                                    Subject = subjects[2],
+                                    Time = "08:00-08:45"
+                                },
+                                new Schedule
+                                {
+                                    Subject = subjects[0],
+                                    Time = "09:00 - 09:45"
+                                }
+                            }
+                        }
+                    }
+            };
+
             await context.Students.AddRangeAsync(students);
             await context.Professors.AddRangeAsync(professors);
             await context.Subjects.AddRangeAsync(subjects);
             await context.Classes.AddRangeAsync(classes);
+            await context.Timetables.AddRangeAsync(timetables);
             await context.SaveChangesAsync();
         }
     }

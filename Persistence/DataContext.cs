@@ -21,12 +21,13 @@ namespace Persistence
         public DbSet<ClassProfessor> ClassProfessors { get; set; }
         public DbSet<ClassSubject> ClassSubjects { get; set; }
         public DbSet<GradeSubject> Grades { get; set; }
+        public DbSet<Timetable> Timetables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ClassProfessor>(x => x.HasKey(cp => new {cp.ClassId, cp.ProfessorId}));//this will form primary key of ClassProfessor table
+            builder.Entity<ClassProfessor>(x => x.HasKey(cp => new { cp.ClassId, cp.ProfessorId }));//this will form primary key of ClassProfessor table
 
             builder.Entity<ClassProfessor>()
                 .HasOne(c => c.Class)
@@ -39,7 +40,7 @@ namespace Persistence
                 .HasForeignKey(cc => cc.ProfessorId);
 
 
-            builder.Entity<ClassSubject>(x => x.HasKey(cs => new {cs.ClassId, cs.SubjectId}));
+            builder.Entity<ClassSubject>(x => x.HasKey(cs => new { cs.ClassId, cs.SubjectId }));
 
             builder.Entity<ClassSubject>()
                 .HasOne(c => c.Class)//Class of ClassSubject

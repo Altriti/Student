@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class GradeSubjectProfessor : Migration
+    public partial class TimetableAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -301,6 +301,24 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Timetables",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    ClassId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Timetables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Timetables_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Grades",
                 columns: table => new
                 {
@@ -330,6 +348,48 @@ namespace Persistence.Migrations
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WeekDaySchedule",
+                columns: table => new
+                {
+                    WeekDayScheduleId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Day = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimetableId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeekDaySchedule", x => x.WeekDayScheduleId);
+                    table.ForeignKey(
+                        name: "FK_WeekDaySchedule_Timetables_TimetableId",
+                        column: x => x.TimetableId,
+                        principalTable: "Timetables",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedule",
+                columns: table => new
+                {
+                    ScheduleId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SubjectId = table.Column<string>(type: "TEXT", nullable: true),
+                    Time = table.Column<string>(type: "TEXT", nullable: true),
+                    WeekDayScheduleId = table.Column<Guid>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Schedule_WeekDaySchedule_WeekDayScheduleId",
+                        column: x => x.WeekDayScheduleId,
+                        principalTable: "WeekDaySchedule",
+                        principalColumn: "WeekDayScheduleId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -405,6 +465,16 @@ namespace Persistence.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Schedule_SubjectId",
+                table: "Schedule",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedule_WeekDayScheduleId",
+                table: "Schedule",
+                column: "WeekDayScheduleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_AppUserId",
                 table: "Students",
                 column: "AppUserId");
@@ -413,6 +483,16 @@ namespace Persistence.Migrations
                 name: "IX_Students_ClassId",
                 table: "Students",
                 column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Timetables_ClassId",
+                table: "Timetables",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeekDaySchedule_TimetableId",
+                table: "WeekDaySchedule",
+                column: "TimetableId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -442,6 +522,9 @@ namespace Persistence.Migrations
                 name: "Grades");
 
             migrationBuilder.DropTable(
+                name: "Schedule");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -449,6 +532,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subjects");
+
+            migrationBuilder.DropTable(
+                name: "WeekDaySchedule");
+
+            migrationBuilder.DropTable(
+                name: "Timetables");
 
             migrationBuilder.DropTable(
                 name: "Classes");

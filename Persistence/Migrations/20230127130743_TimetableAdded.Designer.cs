@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230112123845_GradeSubjectProfessor")]
-    partial class GradeSubjectProfessor
+    [Migration("20230127130743_TimetableAdded")]
+    partial class TimetableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -216,6 +216,30 @@ namespace Persistence.Migrations
                     b.ToTable("Professors");
                 });
 
+            modelBuilder.Entity("Domain.Schedule", b =>
+                {
+                    b.Property<Guid>("ScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("WeekDayScheduleId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ScheduleId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("WeekDayScheduleId");
+
+                    b.ToTable("Schedule");
+                });
+
             modelBuilder.Entity("Domain.Student", b =>
                 {
                     b.Property<Guid>("Id")
@@ -296,6 +320,40 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("Domain.Timetable", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ClassId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Timetables");
+                });
+
+            modelBuilder.Entity("Domain.WeekDaySchedule", b =>
+                {
+                    b.Property<Guid>("WeekDayScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TimetableId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("WeekDayScheduleId");
+
+                    b.HasIndex("TimetableId");
+
+                    b.ToTable("WeekDaySchedule");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -505,6 +563,19 @@ namespace Persistence.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("Domain.Schedule", b =>
+                {
+                    b.HasOne("Domain.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.HasOne("Domain.WeekDaySchedule", null)
+                        .WithMany("Schedules")
+                        .HasForeignKey("WeekDayScheduleId");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("Domain.Student", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
@@ -516,6 +587,24 @@ namespace Persistence.Migrations
                         .HasForeignKey("ClassId");
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Domain.Timetable", b =>
+                {
+                    b.HasOne("Domain.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("Domain.WeekDaySchedule", b =>
+                {
+                    b.HasOne("Domain.Timetable", null)
+                        .WithMany("WeekDaySchedules")
+                        .HasForeignKey("TimetableId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -593,6 +682,16 @@ namespace Persistence.Migrations
                     b.Navigation("Classes");
 
                     b.Navigation("Grades");
+                });
+
+            modelBuilder.Entity("Domain.Timetable", b =>
+                {
+                    b.Navigation("WeekDaySchedules");
+                });
+
+            modelBuilder.Entity("Domain.WeekDaySchedule", b =>
+                {
+                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }
