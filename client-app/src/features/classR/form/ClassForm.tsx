@@ -44,7 +44,7 @@ export default observer(function ClassForm() {
                 onSubmit={values => handleFormSubmit(values)}
             >
                 {({ handleSubmit, isValid, isSubmitting, dirty }) => (
-                    <Form className="ui form" onSubmit={handleSubmit} autocmplete='off'>
+                    <Form className="ui form" onSubmit={handleSubmit} autocomplete='off'>
                         <MyTextInput placeholder="ClassName" name="className" />
                         <Button
                             disabled={isSubmitting || !isValid || !dirty}

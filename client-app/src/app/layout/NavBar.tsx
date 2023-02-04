@@ -24,6 +24,7 @@ export default observer(function NavBar() {
                 <Menu.Item as={NavLink} to='/professors' name="Professors" />
                 <Menu.Item as={NavLink} to='/subjects' name="Subjects" />
                 <Menu.Item as={NavLink} to='/grades' name="Grades" />
+                <Menu.Item as={NavLink} to='/timetables' name="Timetables" />
                 <Dropdown text="Classes" >
                     <Dropdown.Menu>
                         {classArr.map(classR => (
@@ -44,11 +45,14 @@ export default observer(function NavBar() {
                 <Menu.Item>
                     <Dropdown text="Add ...">
                         <Dropdown.Menu>
-                            <Button as={NavLink} to='/createStudent' positive content='Add Student' />
-                            <Button as={NavLink} to='/createProfessor' positive content='Add Professor' />
-                            <Button as={NavLink} to='/createSubject' positive content='Add Subject' />
-                            <Button as={NavLink} to='/createClass' positive content='Add Class' />
-                            <Button as={NavLink} to='/createGrade' positive content='Add Grade' />
+                            <div style={{ display: "flex", flexDirection: "column" }}>
+                                <Button as={NavLink} to='/createStudent' positive content='Add Student' />
+                                <Button as={NavLink} to='/createProfessor' positive content='Add Professor' />
+                                <Button as={NavLink} to='/createSubject' positive content='Add Subject' />
+                                <Button as={NavLink} to='/createClass' positive content='Add Class' />
+                                <Button as={NavLink} to='/createGrade' positive content='Add Grade' />
+                                <Button as={NavLink} to='/createTimetable' positive content='Add Timetable' />
+                            </div>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Item>

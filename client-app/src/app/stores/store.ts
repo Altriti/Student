@@ -6,6 +6,7 @@ import ModalStore from "./modalStore";
 import professorStore from "./professorStore";
 import StudentStore from "./studentStore";
 import subjectStore from "./subjectStore";
+import TimetableStore from "./timetableStore";
 import UserStore from "./userStore";
 
 interface Store {
@@ -17,6 +18,7 @@ interface Store {
     subjectStore: subjectStore;
     classesStore: ClassesStore;
     gradesStore: GradesStore;
+    timetableStore: TimetableStore;
 }
 
 export const store: Store = {
@@ -27,7 +29,8 @@ export const store: Store = {
     professorStore: new professorStore(),
     subjectStore: new subjectStore(),
     classesStore: new ClassesStore(),
-    gradesStore: new GradesStore()
+    gradesStore: new GradesStore(),
+    timetableStore: new TimetableStore()
 }
 
 export const StoreContext = createContext(store);//createContext creates a context object and lets us use the store in whole application

@@ -7,6 +7,7 @@ import { Grade, GradeFormValues } from "../models/grade";
 import { Professor } from "../models/professor";
 import { Student } from "../models/student";
 import { Subject } from "../models/subject";
+import { Timetable, TimetableFormValues } from "../models/timetable";
 import { User, UserFormValues } from "../models/user";
 import { store } from "../stores/store";
 
@@ -125,13 +126,22 @@ const Grades = {
     delete: (id: string) => requests.del<void>(`/studentgrades/${id}`)
 }
 
+const Timetables = {
+    list: () => requests.get<Timetable[]>('/timetables'),
+    details: (id: string) => requests.get<Timetable>(`/timetables/${id}`),
+    create: (timetable: TimetableFormValues) => requests.post<void>('/timetables', timetable),
+    update: (timetable: TimetableFormValues) => requests.put<void>(`/timetables/${timetable.id}`, timetable),
+    delete: (id: string) => requests.del<void>(`/timetables/${id}`)
+}
+
 const agent = {
     Students,
     Account,
     Professors,
     Subjects,
     Classes,
-    Grades
+    Grades,
+    Timetables
 }
 
 export default agent;

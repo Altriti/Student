@@ -27,6 +27,9 @@ import RegisterSubject from '../../features/classR/register/RegisterSubject';
 import GradesDashboard from '../../features/grades/dashboard/GradesDashboard';
 import GradeDetails from '../../features/grades/details/GradeDetails';
 import GradesForm from '../../features/grades/form/GradesForm';
+import TimetableDashboard from '../../features/timetables/dashboard/TimetableDashboard';
+import TimetableDetails from '../../features/timetables/details/TimetableDetails';
+import TimetableForm from '../../features/timetables/TimetableForm';
 
 function App() {
 
@@ -70,6 +73,9 @@ function App() {
           <Route exact path='/grades' component={GradesDashboard} />
           <Route key={location.key} path={['/createGrade', '/grades/edit/:id']} component={GradesForm} />
           <Route path='/grades/:id' component={GradeDetails} />
+          <Route exact path='/timetables' component={TimetableDashboard} />
+          <Route key={location.key} path={['/createTimetable', `timetables/edit/:id`]} component={TimetableForm} />
+          <Route path='/timetables/:id' component={TimetableDetails} />
           <Route component={NotFound} />
           {/* If we write/get a bad route, it will check all routes above, 
           if doesnt match them, it will match the {NotFound}}. Switch -> one route at a time */}
